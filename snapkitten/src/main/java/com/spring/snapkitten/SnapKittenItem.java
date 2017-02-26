@@ -19,6 +19,8 @@ class SnapKittenItem {
     KittenCondition width;
     KittenCondition height;
     SnapKittenAlignment alignment;
+    boolean isSpace = false;
+
     public SnapKittenItem(View child, SnapKittenAlignment alignment){
         this.view = child;
         this.alignment = alignment;

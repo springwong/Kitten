@@ -29,7 +29,8 @@ public class SampleActivity extends AppCompatActivity {
         View group = new SnapKitten(this, SnapKittenOrientation.horizontal)
                 .isAlignDirectionEnd(false) .defaultAlignment(SnapKittenAlignment.center)
                 .add(tvH)
-                .add(ivH).width(400, KittenCompareEnum.max)    .height(400, KittenCompareEnum.equal)
+                .addSpace()
+                .add(ivH).width(40, KittenCompareEnum.max)    .height(40, KittenCompareEnum.equal)
                 .add(tvJ)
                 .build();
         group.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
