@@ -21,8 +21,6 @@ public class SampleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        SnapKitten.initialize(getApplicationContext());
-
         TextView tvH = new TextView(this);
         tvH.setText(" fwe webh hg g gy y ygy ge");
         tvH.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
