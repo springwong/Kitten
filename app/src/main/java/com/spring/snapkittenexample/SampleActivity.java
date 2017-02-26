@@ -21,6 +21,8 @@ public class SampleActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        SnapKitten.initialize(getApplicationContext());
+
         TextView tvH = new TextView(this);
         tvH.setText(" fwe webh hg g gy y ygy ge");
         tvH.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
@@ -30,7 +32,7 @@ public class SampleActivity extends AppCompatActivity {
         ivH.setImageResource(R.drawable.kitten);
         ivH.setAdjustViewBounds(true);
         ivH.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-        View group = new SnapKitten(this, SnapKittenOrientation.horizontal).endPadding(70)
+        View group = SnapKitten.create(SnapKittenOrientation.horizontal).from(null).endPadding(70)
                 .isAlignDirectionEnd(true)
                 .add(tvH).align(SnapKittenAlignment.parent).itemOffset(20).fillParent().compressResistance(50)
                 .add(ivH).width(40, KittenCompareEnum.max).itemOffset(50).height(40, KittenCompareEnum.equal)
@@ -45,7 +47,7 @@ public class SampleActivity extends AppCompatActivity {
 
         ViewGroup frameLayout = new FrameLayout(this);
         setContentView(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        kitten = new SnapKitten(this, SnapKittenOrientation.vertical);
+        kitten = (SnapKitten)SnapKitten.create(SnapKittenOrientation.vertical);
         kitten
                 .from(frameLayout).endPadding(50)
                 //.isAlignDirectionEnd(true)

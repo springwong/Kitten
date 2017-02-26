@@ -29,7 +29,7 @@ import java.util.List;
  */
 
 public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild, SnapKittenBuild, SnapKittenParent, SnapKittenParentMethods {
-    Context context;
+    private static Context context;
 
     LinearLayout container;
     ViewGroup parent;
@@ -48,8 +48,14 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     protected int defaultItemSideStartPadding = 0;
     protected int defaultItemSideEndPadding = 0;
 
-    public SnapKitten(Context context, SnapKittenOrientation orientation){
-        this.context = context;
+    public static void initialize(Context context){
+        SnapKitten.context = context;
+    }
+
+    public static SnapKittenParent create(SnapKittenOrientation orientation){
+        return new SnapKitten(orientation);
+    }
+    private SnapKitten(SnapKittenOrientation orientation){
         this.orientation = orientation;
         container = new LinearLayout(context);
     }
