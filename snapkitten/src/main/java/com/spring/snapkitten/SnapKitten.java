@@ -24,6 +24,7 @@ import java.util.List;
 public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild, SnapKittenBuild, SnapKittenParent, SnapKittenParentMethods {
     Context context;
 
+    LinearLayout container;
     ViewGroup parent;
     SnapKittenOrientation orientation;
 
@@ -31,7 +32,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     SnapKittenItem currentChild;
 
 
-    protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.center;
+    protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.start;
     protected boolean isAlignParentEnd = false;
 
     protected int defaultTop = 0;
@@ -42,6 +43,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     public SnapKitten(Context context, SnapKittenOrientation orientation){
         this.context = context;
         this.orientation = orientation;
+        container = new LinearLayout(context);
     }
     public SnapKittenParentMethods from(ViewGroup parent){
         this.parent = parent;
@@ -132,11 +134,31 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         return this;
     }
 
+    @Override
+    public SnapKittenChildMethods compressResistance(int priority) {
+        currentChild.compressionResistancePriority = priority;
+        if(currentChild.compressionResistancePriority > 1000){
+            currentChild.compressionResistancePriority = 1000;
+        }
+        if(currentChild.compressionResistancePriority <= 0){
+            currentChild.compressionResistancePriority = 1;
+        }
+        return this;
+    }
+
     public LinearLayout build(){
-        LinearLayout container = new LinearLayout(context);
+        if(orientation == SnapKittenOrientation.vertical){
+            return verticalBuild();
+        }
+        if(orientation == SnapKittenOrientation.horizontal){
+            return horizontalBuild();
+        }
+        return container;
+    }
+    private LinearLayout verticalBuild(){
         container.setOrientation(LinearLayout.VERTICAL);
         container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
         container.setLayoutParams(params);
         for(SnapKittenItem child : childs){
             container.addView(child.view);
@@ -150,21 +172,57 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                     linearLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
                     break;
                 case end:
-                    linearLayoutParams.gravity = Gravity.END;
+                    linearLayoutParams.gravity = Gravity.RIGHT;
                     break;
             }
             linearLayoutParams.topMargin = child.top;
-            //to sync with ios side, vertical arrange with ignore bottom margin except last item
-//            linearLayoutParams.bottomMargin = child.bottom;
+            //to sync with ios side, vertical arrange with ignore end margin except last item
             linearLayoutParams.leftMargin = child.left;
             linearLayoutParams.rightMargin = child.right;
             if(childs.indexOf(child) == childs.size() - 1){
                 //last child
                 linearLayoutParams.bottomMargin = child.bottom;
             }
+            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
-        parent.addView(container);
+        if(parent != null)
+            parent.addView(container);
+        return container;
+    }
+    private LinearLayout horizontalBuild(){
+        container.setOrientation(LinearLayout.HORIZONTAL);
+        container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
+        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        container.setLayoutParams(params);
+        for(SnapKittenItem child : childs){
+            container.addView(child.view);
+            LinearLayout.LayoutParams linearLayoutParams
+                    = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, child.alignment == SnapKittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+            switch (child.alignment){
+                case start:
+                    linearLayoutParams.gravity = Gravity.TOP;
+                    break;
+                case center:
+                    linearLayoutParams.gravity = Gravity.CENTER_VERTICAL;
+                    break;
+                case end:
+                    linearLayoutParams.gravity = Gravity.BOTTOM;
+                    break;
+            }
+            linearLayoutParams.topMargin = child.top;
+            //to sync with ios side, vertical arrange with ignore end margin except last item
+            linearLayoutParams.leftMargin = child.left;
+            linearLayoutParams.bottomMargin = child.bottom;
+            if(childs.indexOf(child) == childs.size() - 1){
+                //last child
+                linearLayoutParams.rightMargin = child.right;
+            }
+            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
+            child.view.setLayoutParams(linearLayoutParams);
+        }
+        if (parent != null)
+            parent.addView(container);
         return container;
     }
 }

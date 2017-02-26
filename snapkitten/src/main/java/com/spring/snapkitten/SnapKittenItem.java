@@ -14,6 +14,7 @@ class SnapKittenItem {
     int bottom = 0;
     int left = 0;
     int right = 0;
+    int compressionResistancePriority = 750;
     SnapKittenAlignment alignment;
     public SnapKittenItem(View child, SnapKittenAlignment alignment){
         this.view = child;

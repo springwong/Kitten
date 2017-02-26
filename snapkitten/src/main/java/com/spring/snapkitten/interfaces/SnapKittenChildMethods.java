@@ -12,4 +12,5 @@ public interface SnapKittenChildMethods extends SnapKittenChild, SnapKittenBuild
     SnapKittenChildMethods bottom(int value);
     SnapKittenChildMethods edge(int value);
     SnapKittenChildMethods align(SnapKittenAlignment align);
+    SnapKittenChildMethods compressResistance(int priority);
 }
