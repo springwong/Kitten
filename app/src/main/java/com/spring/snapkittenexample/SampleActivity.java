@@ -28,7 +28,7 @@ public class SampleActivity extends AppCompatActivity {
         ivH.setAdjustViewBounds(true);
         ivH.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
         View group = new SnapKitten(this, SnapKittenOrientation.horizontal)
-                .isAlignDirectionEnd(true) .defaultAlignment(SnapKittenAlignment.center)
+                .isAlignDirectionEnd(true)
                 .add(tvH).align(SnapKittenAlignment.parent).left(70).fillParent().compressResistance(50)
                 .add(ivH).width(40, KittenCompareEnum.max)    .left(50).height(40, KittenCompareEnum.equal)
                 .add(tvJ).left(50)
@@ -42,11 +42,10 @@ public class SampleActivity extends AppCompatActivity {
 
         ViewGroup frameLayout = new FrameLayout(this);
         setContentView(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
         new SnapKitten(this, SnapKittenOrientation.vertical)
                 .from(frameLayout)
                 //.isAlignDirectionEnd(true)
-                .defaultAlignment(SnapKittenAlignment.start)
+//                .defaultAlignment(SnapKittenAlignment.start)
                 .add(tvA)
                 .add(group).align(SnapKittenAlignment.parent)
                 .add(btnA).align(SnapKittenAlignment.end).right(200)

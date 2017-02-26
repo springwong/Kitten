@@ -2,6 +2,7 @@ package com.spring.snapkitten;
 
 import android.content.Context;
 import android.text.Layout;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +38,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     SnapKittenItem currentChild;
 
 
-    protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.start;
+    protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.parent;
     protected boolean isAlignParentEnd = false;
 
     protected int defaultTop = 0;
@@ -101,7 +102,13 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
 
     @Override
     public SnapKittenChildMethods with(View view) {
-        return null;
+        for(SnapKittenItem child : childs){
+            if(child.view.equals(view)){
+                currentChild = child;
+            }
+        }
+        Log.w("SnapKitten", "Kitten Object with(child) : " + view.toString()  + " is not exist, current editing target remains");
+        return this;
     }
 
     @Override
@@ -177,7 +184,6 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         container.setOrientation(LinearLayout.VERTICAL);
         container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
-        container.setLayoutParams(params);
         for(SnapKittenItem child : childs){
             container.addView(child.view);
             LinearLayout.LayoutParams linearLayoutParams
@@ -189,38 +195,13 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                 case center:
                     linearLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
                     break;
+                case parent:
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
                 case end:
                     linearLayoutParams.gravity = Gravity.RIGHT;
                     break;
             }
-            if (child.width != null && child.width.value != null){
-                Integer value = child.width.value;
-                switch (child.width.condition){
-                    case equal:
-                        linearLayoutParams.width = value;
-                        break;
-                    case min:
-                        child.view.setMinimumWidth(value);
-                        break;
-                    case max:
-                        setMaxWidth(child.view, value);
-                        break;
-                }
-            }
-            if (child.height != null && child.height.value != null){
-                Integer value = child.height.value;
-                switch (child.height.condition){
-                    case equal:
-                        linearLayoutParams.height = value;
-                        break;
-                    case min:
-                        child.view.setMinimumHeight(value);
-                        break;
-                    case max:
-                        setMaxHeight(child.view, value);
-                        break;
-                }
-            }
+            setupSize(child, linearLayoutParams);
             linearLayoutParams.topMargin = child.top;
             //to sync with ios side, vertical arrange with ignore end margin except last item
             linearLayoutParams.leftMargin = child.left;
@@ -235,6 +216,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
+        container.setLayoutParams(params);
         if(parent != null)
             parent.addView(container);
         return container;
@@ -243,7 +225,6 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         container.setOrientation(LinearLayout.HORIZONTAL);
         container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_dark));
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        container.setLayoutParams(params);
         for(SnapKittenItem child : childs){
             container.addView(child.view);
             ViewGroup.LayoutParams layoutParams = child.view.getLayoutParams();
@@ -259,35 +240,12 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                 case end:
                     linearLayoutParams.gravity = Gravity.BOTTOM;
                     break;
+                case parent:
+                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    break;
             }
-            if (child.width != null && child.width.value != null){
-                Integer value = child.width.value;
-                switch (child.width.condition){
-                    case equal:
-                        linearLayoutParams.width = value;
-                        break;
-                    case min:
-                        child.view.setMinimumWidth(value);
-                        break;
-                    case max:
-                        setMaxWidth(child.view, value);
-                        break;
-                }
-            }
-            if (child.height != null && child.height.value != null){
-                Integer value = child.height.value;
-                switch (child.height.condition){
-                    case equal:
-                        linearLayoutParams.height = value;
-                        break;
-                    case min:
-                        child.view.setMinimumHeight(value);
-                        break;
-                    case max:
-                        setMaxHeight(child.view, value);
-                        break;
-                }
-            }
+            setupSize(child, linearLayoutParams);
+
             linearLayoutParams.topMargin = child.top;
             //to sync with ios side, vertical arrange with ignore end margin except last item
             linearLayoutParams.leftMargin = child.left;
@@ -302,15 +260,17 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
+        container.setLayoutParams(params);
         if (parent != null)
             parent.addView(container);
         return container;
     }
 
-    void setMaxWidth(View view, int value){
+    private boolean setSizeMethod(String methodName, View view, int value){
         try{
-            Method method = view.getClass().getMethod("setMaxWidth", int.class);
+            Method method = view.getClass().getMethod(methodName, int.class);
             method.invoke(view, value);
+            return true;
         }catch (NoSuchMethodException ex){
 
         }catch (IllegalAccessException ex){
@@ -318,19 +278,52 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         }catch (InvocationTargetException ex){
 
         }
-
+        return false;
     }
-    void setMaxHeight(View view, int value){
-        try{
-            Method method = view.getClass().getMethod("setMaxHeight", int.class);
-            method.invoke(view, value);
-        }catch (NoSuchMethodException ex){
-
-        }catch (IllegalAccessException ex){
-
-        }catch (InvocationTargetException ex){
-
+    private void setMaxWidth(View view, int value){
+        setSizeMethod("setMaxWidth", view, value);
+    }
+    private void setMaxHeight(View view, int value){
+        setSizeMethod("setMaxHeight", view, value);
+    }
+    private void setMinWidth(View view, int value){
+        if(!setSizeMethod("setMinWidth", view, value)){
+            view.setMinimumWidth(value);
         }
-
+    }
+    private void setMinHeight(View view, int value){
+        if(setSizeMethod("setMinHeight", view, value)){
+            view.setMinimumHeight(value);
+        }
+    }
+    private  void setupSize(SnapKittenItem child, LinearLayout.LayoutParams linearLayoutParams){
+        if (child.width != null && child.width.value != null){
+            Integer value = child.width.value;
+            switch (child.width.condition){
+                case equal:
+                    linearLayoutParams.width = value;
+                    break;
+                case min:
+                    setMinWidth(child.view, value);
+                    break;
+                case max:
+                    setMaxWidth(child.view, value);
+                    break;
+            }
+        }
+        if (child.height != null && child.height.value != null){
+            Integer value = child.height.value;
+            switch (child.height.condition){
+                case equal:
+                    linearLayoutParams.height = value;
+                    break;
+                case min:
+                    setMinHeight(child.view, value);
+                    break;
+                case max:
+                    setMaxHeight(child.view, value);
+                    break;
+            }
+        }
     }
 }
