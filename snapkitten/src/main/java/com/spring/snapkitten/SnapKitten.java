@@ -41,8 +41,6 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     List<SnapKittenItem> childs = new ArrayList<>();
     SnapKittenItem currentChild;
 
-    protected KittenWeight defaultWeightLevel = KittenWeight.medium;
-
     protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.parent;
     protected boolean isAlignParentEnd = false;
 
@@ -128,7 +126,6 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         item.itemOffset = defaultItemOffset;
         item.sideStartPadding = defaultItemSideStartPadding;
         item.sideEndPadding = defaultItemSideEndPadding;
-        item.weight = defaultWeightLevel;
         childs.add(item);
         currentChild = item;
         return this;

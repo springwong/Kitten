@@ -19,7 +19,7 @@ class SnapKittenItem {
     int sideEndPadding = 0;
 
     int compressionResistancePriority = 1000;
-    KittenWeight weight;
+    KittenWeight weight = KittenWeight.medium;
 
     KittenCondition width;
     KittenCondition height;
