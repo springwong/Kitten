@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.spring.snapkitten.SnapKitten;
@@ -16,66 +17,55 @@ import com.spring.snapkitten.enums.SnapKittenOrientation;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
 public class SampleActivity extends AppCompatActivity {
-    SnapKitten kitten;
+
+    TextView textViewA = new TextView(SnapKitten.getContext());
+    TextView textViewB = new TextView(SnapKitten.getContext());
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        updateUI();
 
-        TextView tvH = new TextView(this);
-        tvH.setText(" fwe webh hg g gy y ygy ge");
-        tvH.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
-        TextView tvJ = new TextView(this);
-        tvJ.setText("ew jew we vwejv");
-        ImageView ivH = new ImageView(this);
-        ivH.setImageResource(R.drawable.kitten);
-        ivH.setAdjustViewBounds(true);
-        ivH.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-        View group = SnapKitten.create(SnapKittenOrientation.horizontal).from(null).endPadding(70)
-                .isAlignDirectionEnd(true)
-                .add(tvH).align(SnapKittenAlignment.parent).itemOffset(20).fillParent().compressResistance(50)
-                .add(ivH).width(40, KittenCompareEnum.max).itemOffset(50).height(40, KittenCompareEnum.equal)
-                .add(tvJ).itemOffset(50)
-                .build()
-                ;
-        group.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
+        ScrollView mainView = new ScrollView(this);
+        setContentView(mainView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        TextView tvA = new TextView(this);
-        TextView tvB = new TextView(this);
-        TextView btnA = new TextView(this);
-
-        ViewGroup frameLayout = new FrameLayout(this);
-        setContentView(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        kitten = (SnapKitten)SnapKitten.create(SnapKittenOrientation.vertical);
-        kitten
-                .from(frameLayout).endPadding(50)
-                //.isAlignDirectionEnd(true)
-//                .defaultAlignment(SnapKittenAlignment.start)
-                .add(tvA)
-                .add(group).align(SnapKittenAlignment.parent)
-                .add(btnA).align(SnapKittenAlignment.end).sideEndPadding(50)
-                .add(tvB).itemOffset(200)
+        View child = alignParentCard();
+        SnapKitten.create(SnapKittenOrientation.vertical)
+                .from(mainView).isAlignDirectionEnd(true)
+                .add(textViewA)
+                .add(textViewB)
+                .add(child)
                 .build();
 
-        tvA.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-        tvA.setText(" ewjfewj ijoiwphwi ehvwehvhwei vhweiih ewfiew hiwehfiewhfiuwehfui wehfiwh euifhwei iwehfieuwhfiwe hfi uwehfuiwe hfiwe hfiw");
-        tvB.setText("fks eoj ioewiowe owevh iweivwe vwjvowej ovjewoi vjweojv owjiwe jojwei vwj owojviow jvoew jviowejvoiwe j");
-
-        btnA.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
-        btnA.setText("Button");
-        btnA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                kitten.condition(new KittenInsertCondition() {
-                    @Override
-                    public boolean isInsert() {
-                        isShow = !isShow;
-                        return isShow;
-                    }
-                });
-                kitten.rebuild();
-            }
-        });
     }
 
-    boolean isShow = true;
+    private void updateUI(){
+        textViewA.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+        textViewB.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
+
+        textViewA.setText(
+                "Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout. Lorem ipsum is mostly a part of a Latin text by the classical author and philosopher Cicero. Its words and letters have been changed by addition or removal, so to deliberately render its content nonsensical; it's not genuine, correct, or comprehensible Latin anymore. While lorem ipsum's still resembles classical Latin, it actually has no meaning whatsoever. As Cicero's text doesn't contain the letters K, W, or Z, alien to latin, these, and others are often inserted randomly to mimic the typographic appearence of European languages, as are digraphs not to be found in the original. In a professional context it often happens that private or corporate clients corder a publication to be made and presented with the actual content still not being ready. Think of a news blog that's filled with content hourly on the day of going live. However, reviewers tend to be distracted by comprehensible content, say, a random text copied from a newspaper or the internet. The are likely to focus on the text, disregarding the layout and its elements. Besides, random text risks to be unintendedly humorous or offensive, an unacceptable risk in corporate environments. Lorem ipsum and its many variants have been employed since the early 1960ies, and quite likely since the sixteenth century.");
+        textViewB.setText(
+                "Most of its text is made up from sections 1.10.32–3 of Cicero's De finibus bonorum et malorum (On the Boundaries of Goods and Evils; finibus may also be translated as purposes). Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit is the first known version (\"Neither is there anyone who loves grief itself since it is grief and thus wants to obtain it\"). It was found by Richard McClintock, a philologist, director of publications at Hampden-Sydney College in Virginia; he searched for citings of consectetur in classical Latin literature, a term of remarkably low frequency in that literary corpus. Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet, consectetur, adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?");
+    }
+
+    private View alignParentCard(){
+        TextView textView = new TextView(this);
+        ImageView ivProfile = new ImageView(this);
+//        ivProfile.setImageResource(R.drawable.kitten);
+        textView.setText("Most text editors like MS Word or Lotus Notes generate random lorem text when needed, either as pre-installed module or plug-in to be added. Word selection or sequence don't necessarily match the original, which is intended to add variety. Presentation software like Keynote or Pages use it as a samples for screenplay layout. Content management software as Joomla, Drupal, Mambo, PHP-Nuke, WordPress, or Movable Type offer Lorem Ipsum plug-ins with the same functionality."
+        );
+
+        return SnapKitten.create(SnapKittenOrientation.horizontal)
+                .from()
+                .defaultAlignment(SnapKittenAlignment.start)
+                .itemDefaultSideStartPadding(10)
+                .itemDefaultSideEndPadding(10)
+                .isAlignDirectionEnd(true)
+                .startPadding(15)
+                .endPadding(15)
+                .add(ivProfile).size(240, KittenCompareEnum.equal)
+                .add(textView)
+                .build();
+    }
 }

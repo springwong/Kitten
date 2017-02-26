@@ -52,6 +52,10 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         SnapKitten.context = context;
     }
 
+    public static Context getContext(){
+        return context;
+    }
+
     public static SnapKittenParent create(SnapKittenOrientation orientation){
         return new SnapKitten(orientation);
     }
@@ -61,6 +65,11 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
     public SnapKittenParentMethods from(ViewGroup parent){
         this.parent = parent;
+        return this;
+    }
+
+    @Override
+    public SnapKittenParentMethods from() {
         return this;
     }
 

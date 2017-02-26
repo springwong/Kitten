@@ -8,4 +8,5 @@ import android.view.ViewGroup;
 
 public interface SnapKittenParent extends SnapKittenBuild {
     SnapKittenParentMethods from(ViewGroup parent);
+    SnapKittenParentMethods from();
 }
