@@ -2,6 +2,7 @@ package com.spring.snapkitten;
 
 import android.view.View;
 
+import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 
 /**
@@ -15,6 +16,8 @@ class SnapKittenItem {
     int left = 0;
     int right = 0;
     int compressionResistancePriority = 750;
+    KittenCondition width;
+    KittenCondition height;
     SnapKittenAlignment alignment;
     public SnapKittenItem(View child, SnapKittenAlignment alignment){
         this.view = child;

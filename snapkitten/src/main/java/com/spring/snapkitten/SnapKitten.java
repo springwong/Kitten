@@ -4,8 +4,11 @@ import android.content.Context;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 import com.spring.snapkitten.enums.SnapKittenOrientation;
 import com.spring.snapkitten.interfaces.SnapKittenBuild;
@@ -14,6 +17,8 @@ import com.spring.snapkitten.interfaces.SnapKittenChildMethods;
 import com.spring.snapkitten.interfaces.SnapKittenParent;
 import com.spring.snapkitten.interfaces.SnapKittenParentMethods;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -146,6 +151,18 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         return this;
     }
 
+    @Override
+    public SnapKittenChildMethods width(Integer value, KittenCompareEnum condition) {
+        currentChild.width = new KittenCondition(value, condition);
+        return this;
+    }
+
+    @Override
+    public SnapKittenChildMethods height(Integer value, KittenCompareEnum condition) {
+        currentChild.height = new KittenCondition(value, condition);
+        return this;
+    }
+
     public LinearLayout build(){
         if(orientation == SnapKittenOrientation.vertical){
             return verticalBuild();
@@ -210,6 +227,20 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                     linearLayoutParams.gravity = Gravity.BOTTOM;
                     break;
             }
+            if (child.width != null && child.width.value != null){
+                Integer value = child.width.value;
+                switch (child.width.condition){
+                    case equal:
+                        linearLayoutParams.width = value;
+                        break;
+                    case min:
+                        child.view.setMinimumWidth(value);
+                        break;
+                    case max:
+                        setMaxWidth(child.view, value);
+                        break;
+                }
+            }
             linearLayoutParams.topMargin = child.top;
             //to sync with ios side, vertical arrange with ignore end margin except last item
             linearLayoutParams.leftMargin = child.left;
@@ -224,5 +255,19 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         if (parent != null)
             parent.addView(container);
         return container;
+    }
+
+    void setMaxWidth(View view, int value){
+        try{
+            Method method = view.getClass().getMethod("setMaxWidth", int.class);
+            method.invoke(view, value);
+        }catch (NoSuchMethodException ex){
+
+        }catch (IllegalAccessException ex){
+
+        }catch (InvocationTargetException ex){
+
+        }
+
     }
 }
