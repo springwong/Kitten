@@ -12,9 +12,12 @@ import android.widget.TextView;
 
 import com.spring.snapkitten.SnapKitten;
 import com.spring.snapkitten.enums.KittenCompareEnum;
+import com.spring.snapkitten.enums.KittenWeight;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 import com.spring.snapkitten.enums.SnapKittenOrientation;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
+
+import org.w3c.dom.Text;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -55,6 +58,9 @@ public class SampleActivity extends AppCompatActivity {
 //        ivProfile.setImageResource(R.drawable.kitten);
         textView.setText("Most text editors like MS Word or Lotus Notes generate random lorem text when needed, either as pre-installed module or plug-in to be added. Word selection or sequence don't necessarily match the original, which is intended to add variety. Presentation software like Keynote or Pages use it as a samples for screenplay layout. Content management software as Joomla, Drupal, Mambo, PHP-Nuke, WordPress, or Movable Type offer Lorem Ipsum plug-ins with the same functionality."
         );
+        TextView textView1 = new TextView(this);
+        textView1.setText("Most text editors like MS Word or Lotus Notes generate random lorem text when needed, either as pre-installed module or plug-in to be added. Word selection or sequence don't necessarily match the original, which is intended to add variety. Presentation software like Keynote or Pages use it as a samples for screenplay layout. Content management software as Joomla, Drupal, Mambo, PHP-Nuke, WordPress, or Movable Type offer Lorem Ipsum plug-ins with the same functionality."
+        );
 
         return SnapKitten.create(SnapKittenOrientation.horizontal)
                 .from()
@@ -64,8 +70,9 @@ public class SampleActivity extends AppCompatActivity {
                 .isAlignDirectionEnd(true)
                 .startPadding(15)
                 .endPadding(15)
-                .add(ivProfile).size(240, KittenCompareEnum.equal)
+                .add(ivProfile).size(240, KittenCompareEnum.equal).weight(KittenWeight.high)
                 .add(textView)
+                .add(textView1)
                 .build();
     }
 }

@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.spring.snapkitten.enums.KittenCompareEnum;
+import com.spring.snapkitten.enums.KittenWeight;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 import com.spring.snapkitten.enums.SnapKittenOrientation;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
@@ -40,6 +41,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     List<SnapKittenItem> childs = new ArrayList<>();
     SnapKittenItem currentChild;
 
+    protected KittenWeight defaultWeightLevel = KittenWeight.medium;
 
     protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.parent;
     protected boolean isAlignParentEnd = false;
@@ -126,6 +128,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         item.itemOffset = defaultItemOffset;
         item.sideStartPadding = defaultItemSideStartPadding;
         item.sideEndPadding = defaultItemSideEndPadding;
+        item.weight = defaultWeightLevel;
         childs.add(item);
         currentChild = item;
         return this;
@@ -206,6 +209,12 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     @Override
     public SnapKittenChildMethods condition(KittenInsertCondition condition) {
         currentChild.condition = condition;
+        return this;
+    }
+
+    @Override
+    public SnapKittenChildMethods weight(KittenWeight weight) {
+        currentChild.weight = weight;
         return this;
     }
 
@@ -323,7 +332,19 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             if (child.isFillParent){
                 linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             }
-            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
+            switch (child.weight){
+                case low:
+                    //a high number related to medium and high
+                    linearLayoutParams.weight = 1000;
+                    break;
+                case medium:
+                    linearLayoutParams.weight = 1;
+                    break;
+                case high:
+                    linearLayoutParams.weight = 0;
+                    break;
+            }
+//            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);

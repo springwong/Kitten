@@ -3,6 +3,7 @@ package com.spring.snapkitten;
 import android.view.View;
 
 import com.spring.snapkitten.enums.KittenCompareEnum;
+import com.spring.snapkitten.enums.KittenWeight;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
@@ -18,6 +19,8 @@ class SnapKittenItem {
     int sideEndPadding = 0;
 
     int compressionResistancePriority = 1000;
+    KittenWeight weight;
+
     KittenCondition width;
     KittenCondition height;
     SnapKittenAlignment alignment;
