@@ -1,13 +1,12 @@
 package com.spring.snapkitten;
 
 import android.content.Context;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Space;
-import android.widget.TextView;
 
 import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
@@ -95,10 +94,8 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public SnapKittenChildMethods addSpace() {
-        SnapKittenItem item = new SnapKittenItem(new Space(context), defaultAlignment);
-        item.isSpace = true;
-        childs.add(item);
+    public SnapKittenChildMethods fillParent() {
+        currentChild.isFillParent = true;
         return this;
     }
 
@@ -232,13 +229,10 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                 //last child
                 linearLayoutParams.bottomMargin = child.bottom;
             }
-            if (child.isSpace){
+            if (child.isFillParent){
                 linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-                linearLayoutParams.width = 0;
-                linearLayoutParams.weight = 1001;
-            }else{
-                linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             }
+            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
         if(parent != null)
@@ -247,11 +241,12 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
     private LinearLayout horizontalBuild(){
         container.setOrientation(LinearLayout.HORIZONTAL);
-        container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
+        container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_dark));
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         container.setLayoutParams(params);
         for(SnapKittenItem child : childs){
             container.addView(child.view);
+            ViewGroup.LayoutParams layoutParams = child.view.getLayoutParams();
             LinearLayout.LayoutParams linearLayoutParams
                     = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, child.alignment == SnapKittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
             switch (child.alignment){
@@ -301,13 +296,10 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                 //last child
                 linearLayoutParams.rightMargin = child.right;
             }
-            if (child.isSpace){
+            if (child.isFillParent){
                 linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                linearLayoutParams.height = 0;
-                linearLayoutParams.weight = 65000;
-            }else{
-                linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             }
+            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
         if (parent != null)

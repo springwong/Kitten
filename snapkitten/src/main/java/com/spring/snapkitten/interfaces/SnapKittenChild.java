@@ -7,6 +7,5 @@ import android.view.View;
  */
 public interface SnapKittenChild extends SnapKittenBuild {
     SnapKittenChildMethods add(View view);
-    SnapKittenChildMethods addSpace();
     SnapKittenChildMethods with(View view);
 }

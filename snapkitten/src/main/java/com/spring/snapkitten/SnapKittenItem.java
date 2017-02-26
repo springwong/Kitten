@@ -15,11 +15,11 @@ class SnapKittenItem {
     int bottom = 0;
     int left = 0;
     int right = 0;
-    int compressionResistancePriority = 750;
+    int compressionResistancePriority = 1000;
     KittenCondition width;
     KittenCondition height;
     SnapKittenAlignment alignment;
-    boolean isSpace = false;
+    boolean isFillParent = false;
 
     public SnapKittenItem(View child, SnapKittenAlignment alignment){
         this.view = child;

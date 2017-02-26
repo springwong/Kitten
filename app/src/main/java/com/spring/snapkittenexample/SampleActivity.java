@@ -19,7 +19,8 @@ public class SampleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         TextView tvH = new TextView(this);
-        tvH.setText(" fwe weoivjw eovwev owe");
+        tvH.setText(" fwe webh hg g gy y ygy ge");
+        tvH.setBackgroundColor(getResources().getColor(android.R.color.darker_gray));
         TextView tvJ = new TextView(this);
         tvJ.setText("ew jew we vwejv");
         ImageView ivH = new ImageView(this);
@@ -27,12 +28,12 @@ public class SampleActivity extends AppCompatActivity {
         ivH.setAdjustViewBounds(true);
         ivH.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
         View group = new SnapKitten(this, SnapKittenOrientation.horizontal)
-                .isAlignDirectionEnd(false) .defaultAlignment(SnapKittenAlignment.center)
-                .add(tvH)
-                .addSpace()
-                .add(ivH).width(40, KittenCompareEnum.max)    .height(40, KittenCompareEnum.equal)
-                .add(tvJ)
-                .build();
+                .isAlignDirectionEnd(true) .defaultAlignment(SnapKittenAlignment.center)
+                .add(tvH).align(SnapKittenAlignment.parent).left(70).fillParent().compressResistance(50)
+                .add(ivH).width(40, KittenCompareEnum.max)    .left(50).height(40, KittenCompareEnum.equal)
+                .add(tvJ).left(50)
+                .build()
+                ;
         group.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
 
         TextView tvA = new TextView(this);
@@ -47,7 +48,7 @@ public class SampleActivity extends AppCompatActivity {
                 //.isAlignDirectionEnd(true)
                 .defaultAlignment(SnapKittenAlignment.start)
                 .add(tvA)
-                .add(group)
+                .add(group).align(SnapKittenAlignment.parent)
                 .add(btnA).align(SnapKittenAlignment.end).right(200)
                 .add(tvB).left(100).right(50)
                 .build();
