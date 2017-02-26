@@ -4,4 +4,5 @@ import android.widget.LinearLayout;
 
 public interface SnapKittenBuild{
     LinearLayout build();
+    LinearLayout rebuild();
 }

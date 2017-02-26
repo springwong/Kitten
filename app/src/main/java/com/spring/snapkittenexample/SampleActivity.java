@@ -16,6 +16,7 @@ import com.spring.snapkitten.enums.SnapKittenOrientation;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
 public class SampleActivity extends AppCompatActivity {
+    SnapKitten kitten;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +45,8 @@ public class SampleActivity extends AppCompatActivity {
 
         ViewGroup frameLayout = new FrameLayout(this);
         setContentView(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        new SnapKitten(this, SnapKittenOrientation.vertical)
+        kitten = new SnapKitten(this, SnapKittenOrientation.vertical);
+        kitten
                 .from(frameLayout)
                 //.isAlignDirectionEnd(true)
 //                .defaultAlignment(SnapKittenAlignment.start)
@@ -60,5 +62,20 @@ public class SampleActivity extends AppCompatActivity {
 
         btnA.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_bright));
         btnA.setText("Button");
+        btnA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                kitten.condition(new KittenInsertCondition() {
+                    @Override
+                    public boolean isInsert() {
+                        isShow = !isShow;
+                        return isShow;
+                    }
+                });
+                kitten.rebuild();
+            }
+        });
     }
+
+    boolean isShow = true;
 }

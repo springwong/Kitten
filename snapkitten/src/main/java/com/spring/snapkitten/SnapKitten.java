@@ -200,9 +200,23 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         }
         return container;
     }
+
+    @Override
+    public LinearLayout rebuild() {
+        container.removeAllViews();
+        return build();
+    }
+
     private LinearLayout verticalBuild(List<SnapKittenItem> childs){
         container.setOrientation(LinearLayout.VERTICAL);
-        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+        ViewGroup.LayoutParams params = container.getLayoutParams();
+        if(params == null){
+            params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+        }else{
+            //should i set the params width height here?
+            params.width = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.height =  isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
+        }
         for(SnapKittenItem child : childs){
             container.addView(child.view);
             LinearLayout.LayoutParams linearLayoutParams
@@ -236,7 +250,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);
-        if(parent != null)
+        if(parent != null && container.getParent() == null)
             parent.addView(container);
         return container;
     }
