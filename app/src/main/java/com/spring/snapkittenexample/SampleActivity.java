@@ -38,6 +38,7 @@ public class SampleActivity extends AppCompatActivity {
                 .add(textViewA)
                 .add(textViewB)
                 .add(child)
+                .add(alignLeftItems())
                 .build();
 
     }
@@ -73,6 +74,19 @@ public class SampleActivity extends AppCompatActivity {
                 .add(ivProfile).size(240, KittenCompareEnum.equal).weight(KittenWeight.high)
                 .add(textView).height(240, KittenCompareEnum.max)
                 .add(textView1)
+                .build();
+    }
+
+    private View alignLeftItems(){
+        TextView textView = new TextView(this);
+        textView.setText("test 123");
+        ImageView imageView = new ImageView(this);
+        imageView.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+        return SnapKitten.create(SnapKittenOrientation.horizontal)
+                .from()
+                .defaultAlignment(SnapKittenAlignment.center)
+                .add(imageView).size(200, KittenCompareEnum.equal).weight(KittenWeight.high)
+                .add(textView).itemOffset(40)
                 .build();
     }
 }
