@@ -209,7 +209,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         return this;
     }
 
-    public LinearLayout build(){
+    public View build(){
         List<SnapKittenItem> filteredList = new ArrayList<>();
         for(SnapKittenItem child : childs){
             if(child.condition == null || child.condition.isInsert()){
@@ -226,12 +226,12 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public LinearLayout rebuild() {
+    public View rebuild() {
         container.removeAllViews();
         return build();
     }
 
-    private LinearLayout verticalBuild(List<SnapKittenItem> childs){
+    private View verticalBuild(List<SnapKittenItem> childs){
         container.setOrientation(LinearLayout.VERTICAL);
         ViewGroup.LayoutParams params = container.getLayoutParams();
         if(params == null){
@@ -281,9 +281,9 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         container.setLayoutParams(params);
         if(parent != null && container.getParent() == null)
             parent.addView(container);
-        return container;
+        return parent == null ? container : parent;
     }
-    private LinearLayout horizontalBuild(List<SnapKittenItem> childs){
+    private View horizontalBuild(List<SnapKittenItem> childs){
         container.setOrientation(LinearLayout.HORIZONTAL);
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         for(SnapKittenItem child : childs){
@@ -329,7 +329,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         container.setLayoutParams(params);
         if (parent != null)
             parent.addView(container);
-        return container;
+        return parent == null ? container : parent;
     }
 
     private boolean setSizeMethod(String methodName, View view, int value){

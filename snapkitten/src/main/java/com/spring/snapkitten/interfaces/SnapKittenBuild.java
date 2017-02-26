@@ -1,8 +1,8 @@
 package com.spring.snapkitten.interfaces;
 
-import android.widget.LinearLayout;
+import android.view.View;
 
 public interface SnapKittenBuild{
-    LinearLayout build();
-    LinearLayout rebuild();
+    View build();
+    View rebuild();
 }
