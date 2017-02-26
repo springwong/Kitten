@@ -7,6 +7,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.spring.snapkitten.SnapKitten;
+import com.spring.snapkitten.enums.SnapKittenAlignment;
+import com.spring.snapkitten.enums.SnapKittenOrientation;
 
 public class SampleActivity extends AppCompatActivity {
     @Override
@@ -19,10 +21,10 @@ public class SampleActivity extends AppCompatActivity {
         ViewGroup frameLayout = new FrameLayout(this);
         setContentView(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
-        new SnapKitten(this).from(frameLayout)
+        new SnapKitten(this, SnapKittenOrientation.vertical).from(frameLayout).isAlignDirectionEnd(true)
                 .add(tvA)
-                .add(btnA)
-                .add(tvB)
+                .add(btnA).align(SnapKittenAlignment.end).right(200)
+                .add(tvB).left(100).right(50)
                 .build();
 
         tvA.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));

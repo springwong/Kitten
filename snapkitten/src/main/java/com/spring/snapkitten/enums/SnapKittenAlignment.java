@@ -1,4 +1,4 @@
-package com.spring.snapkitten;
+package com.spring.snapkitten.enums;
 
 /**
  * Created by spring on 26/2/2017.
