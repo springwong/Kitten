@@ -8,7 +8,11 @@ import com.spring.snapkitten.enums.SnapKittenOrientation;
  */
 public interface SnapKittenParentMethods extends SnapKittenChild, SnapKittenBuild {
     SnapKittenParentMethods defaultAlignment(SnapKittenAlignment alignment);
-    SnapKittenParentMethods defaultEdge(int top, int left, int bottom, int right);
+    SnapKittenParentMethods startPadding(int value);
+    SnapKittenParentMethods endPadding(int value);
+    SnapKittenParentMethods itemDefaultOffset(int value);
+    SnapKittenParentMethods itemDefaultSideStartPadding(int value);
+    SnapKittenParentMethods itemDefaultSideEndPadding(int value);
     SnapKittenParentMethods isAlignDirectionEnd(boolean isAlign);
     SnapKittenParentMethods orientation(SnapKittenOrientation orientation);
 }

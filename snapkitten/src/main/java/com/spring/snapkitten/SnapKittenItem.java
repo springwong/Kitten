@@ -12,12 +12,11 @@ import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
 class SnapKittenItem {
     View view;
-    int top = 0;
-    int bottom = 0;
-    int left = 0;
-    int right = 0;
 
     int itemOffset = 0;
+    int sideStartPadding = 0;
+    int sideEndPadding = 0;
+
     int compressionResistancePriority = 1000;
     KittenCondition width;
     KittenCondition height;
@@ -25,15 +24,8 @@ class SnapKittenItem {
     boolean isFillParent = false;
     KittenInsertCondition condition;
 
-    public SnapKittenItem(View child, SnapKittenAlignment alignment){
+    public SnapKittenItem(View child, SnapKittenAlignment alignment) {
         this.view = child;
         this.alignment = alignment;
-    }
-
-    public void setEdge(int value){
-        this.top = value;
-        this.left = value;
-        this.right = value;
-        this.bottom = value;
     }
 }

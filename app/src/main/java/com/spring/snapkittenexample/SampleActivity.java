@@ -30,11 +30,11 @@ public class SampleActivity extends AppCompatActivity {
         ivH.setImageResource(R.drawable.kitten);
         ivH.setAdjustViewBounds(true);
         ivH.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
-        View group = new SnapKitten(this, SnapKittenOrientation.horizontal)
+        View group = new SnapKitten(this, SnapKittenOrientation.horizontal).endPadding(70)
                 .isAlignDirectionEnd(true)
-                .add(tvH).align(SnapKittenAlignment.parent).left(70).fillParent().compressResistance(50)
-                .add(ivH).width(40, KittenCompareEnum.max)    .left(50).height(40, KittenCompareEnum.equal)
-                .add(tvJ).left(50)
+                .add(tvH).align(SnapKittenAlignment.parent).itemOffset(20).fillParent().compressResistance(50)
+                .add(ivH).width(40, KittenCompareEnum.max).itemOffset(50).height(40, KittenCompareEnum.equal)
+                .add(tvJ).itemOffset(50)
                 .build()
                 ;
         group.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_light));
@@ -47,13 +47,13 @@ public class SampleActivity extends AppCompatActivity {
         setContentView(frameLayout, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
         kitten = new SnapKitten(this, SnapKittenOrientation.vertical);
         kitten
-                .from(frameLayout)
+                .from(frameLayout).endPadding(50)
                 //.isAlignDirectionEnd(true)
 //                .defaultAlignment(SnapKittenAlignment.start)
                 .add(tvA)
                 .add(group).align(SnapKittenAlignment.parent)
-                .add(btnA).align(SnapKittenAlignment.end).right(200)
-                .add(tvB).left(100).right(50)
+                .add(btnA).align(SnapKittenAlignment.end).sideEndPadding(50)
+                .add(tvB).itemOffset(200)
                 .build();
 
         tvA.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));

@@ -34,6 +34,8 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     LinearLayout container;
     ViewGroup parent;
     SnapKittenOrientation orientation;
+    protected int startPadding = 0;
+    protected int endPadding = 0;
 
     List<SnapKittenItem> childs = new ArrayList<>();
     SnapKittenItem currentChild;
@@ -42,10 +44,9 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.parent;
     protected boolean isAlignParentEnd = false;
 
-    protected int defaultTop = 0;
-    protected int defaultLeft = 0;
-    protected int defaultRight = 0;
-    protected int defaultBottom = 0;
+    protected int defaultItemOffset = 0;
+    protected int defaultItemSideStartPadding = 0;
+    protected int defaultItemSideEndPadding = 0;
 
     public SnapKitten(Context context, SnapKittenOrientation orientation){
         this.context = context;
@@ -64,11 +65,32 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public SnapKittenParentMethods defaultEdge(int top, int left, int bottom, int right) {
-        this.defaultTop = top;
-        this.defaultLeft = left;
-        this.defaultBottom = bottom;
-        this.defaultRight = right;
+    public SnapKittenParentMethods startPadding(int value) {
+        this.startPadding = value;
+        return this;
+    }
+
+    @Override
+    public SnapKittenParentMethods endPadding(int value) {
+        this.endPadding = value;
+        return this;
+    }
+
+    @Override
+    public SnapKittenParentMethods itemDefaultOffset(int value) {
+        this.defaultItemOffset = value;
+        return this;
+    }
+
+    @Override
+    public SnapKittenParentMethods itemDefaultSideStartPadding(int value) {
+        this.defaultItemSideStartPadding = value;
+        return this;
+    }
+
+    @Override
+    public SnapKittenParentMethods itemDefaultSideEndPadding(int value) {
+        this.defaultItemSideEndPadding = value;
         return this;
     }
 
@@ -86,10 +108,9 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
 
     public SnapKittenChildMethods add(View child){
         SnapKittenItem item = new SnapKittenItem(child, defaultAlignment);
-        item.top = defaultTop;
-        item.left = defaultLeft;
-        item.right = defaultRight;
-        item.bottom = defaultBottom;
+        item.itemOffset = defaultItemOffset;
+        item.sideStartPadding = defaultItemSideStartPadding;
+        item.sideEndPadding = defaultItemSideEndPadding;
         childs.add(item);
         currentChild = item;
         return this;
@@ -113,32 +134,20 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public SnapKittenChildMethods top(int value) {
-        currentChild.top = value;
+    public SnapKittenChildMethods sideEndPadding(int value) {
+        currentChild.sideEndPadding = value;
         return this;
     }
 
     @Override
-    public SnapKittenChildMethods left(int value) {
-        currentChild.left = value;
+    public SnapKittenChildMethods sideStartPadding(int value) {
+        currentChild.sideStartPadding = value;
         return this;
     }
 
     @Override
-    public SnapKittenChildMethods right(int value) {
-        currentChild.right = value;
-        return this;
-    }
-
-    @Override
-    public SnapKittenChildMethods bottom(int value) {
-        currentChild.bottom = value;
-        return this;
-    }
-
-    @Override
-    public SnapKittenChildMethods edge(int value) {
-        currentChild.setEdge(value);
+    public SnapKittenChildMethods itemOffset(int value) {
+        currentChild.itemOffset = value;
         return this;
     }
 
@@ -235,13 +244,18 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                     break;
             }
             setupSize(child, linearLayoutParams);
-            linearLayoutParams.topMargin = child.top;
+            if(childs.indexOf(child) == 0){
+                //first child
+                linearLayoutParams.topMargin = startPadding;
+            }else {
+                linearLayoutParams.topMargin = child.itemOffset;
+            }
             //to sync with ios side, vertical arrange with ignore end margin except last item
-            linearLayoutParams.leftMargin = child.left;
-            linearLayoutParams.rightMargin = child.right;
+            linearLayoutParams.leftMargin = child.sideStartPadding;
+            linearLayoutParams.rightMargin = child.sideEndPadding;
             if(childs.indexOf(child) == childs.size() - 1){
                 //last child
-                linearLayoutParams.bottomMargin = child.bottom;
+                linearLayoutParams.bottomMargin = endPadding;
             }
             if (child.isFillParent){
                 linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
@@ -278,13 +292,18 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             }
             setupSize(child, linearLayoutParams);
 
-            linearLayoutParams.topMargin = child.top;
+            if(childs.indexOf(child) == 0){
+                //first child
+                linearLayoutParams.leftMargin = startPadding;
+            }else {
+                linearLayoutParams.leftMargin = child.itemOffset;
+            }
             //to sync with ios side, vertical arrange with ignore end margin except last item
-            linearLayoutParams.leftMargin = child.left;
-            linearLayoutParams.bottomMargin = child.bottom;
+            linearLayoutParams.topMargin = child.sideStartPadding;
+            linearLayoutParams.bottomMargin = child.sideEndPadding;
             if(childs.indexOf(child) == childs.size() - 1){
                 //last child
-                linearLayoutParams.rightMargin = child.right;
+                linearLayoutParams.rightMargin = endPadding;
             }
             if (child.isFillParent){
                 linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
