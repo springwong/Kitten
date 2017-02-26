@@ -6,12 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.spring.snapkitten.SnapKitten;
 import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 import com.spring.snapkitten.enums.SnapKittenOrientation;
+import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
 public class SampleActivity extends AppCompatActivity {
     @Override

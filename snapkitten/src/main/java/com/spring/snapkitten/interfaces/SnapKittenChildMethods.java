@@ -16,5 +16,7 @@ public interface SnapKittenChildMethods extends SnapKittenChild, SnapKittenBuild
     SnapKittenChildMethods compressResistance(int priority);
     SnapKittenChildMethods width(Integer value, KittenCompareEnum condition);
     SnapKittenChildMethods height(Integer value, KittenCompareEnum condition);
+    SnapKittenChildMethods size(Integer value, KittenCompareEnum condition);
+    SnapKittenChildMethods condition(KittenInsertCondition condition);
     SnapKittenChildMethods fillParent();
 }

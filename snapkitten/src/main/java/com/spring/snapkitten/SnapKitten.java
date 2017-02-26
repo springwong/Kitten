@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.SnapKittenAlignment;
 import com.spring.snapkitten.enums.SnapKittenOrientation;
+import com.spring.snapkitten.interfaces.KittenInsertCondition;
 import com.spring.snapkitten.interfaces.SnapKittenBuild;
 import com.spring.snapkitten.interfaces.SnapKittenChild;
 import com.spring.snapkitten.interfaces.SnapKittenChildMethods;
@@ -171,18 +172,36 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         return this;
     }
 
+    @Override
+    public SnapKittenChildMethods size(Integer value, KittenCompareEnum condition) {
+        currentChild.width = new KittenCondition(value, condition);
+        currentChild.height = new KittenCondition(value, condition);
+        return this;
+    }
+
+    @Override
+    public SnapKittenChildMethods condition(KittenInsertCondition condition) {
+        currentChild.condition = condition;
+        return this;
+    }
+
     public LinearLayout build(){
+        List<SnapKittenItem> filteredList = new ArrayList<>();
+        for(SnapKittenItem child : childs){
+            if(child.condition == null || child.condition.isInsert()){
+                filteredList.add(child);
+            }
+        }
         if(orientation == SnapKittenOrientation.vertical){
-            return verticalBuild();
+            return verticalBuild(filteredList);
         }
         if(orientation == SnapKittenOrientation.horizontal){
-            return horizontalBuild();
+            return  horizontalBuild(filteredList);
         }
         return container;
     }
-    private LinearLayout verticalBuild(){
+    private LinearLayout verticalBuild(List<SnapKittenItem> childs){
         container.setOrientation(LinearLayout.VERTICAL);
-        container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_green_light));
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
         for(SnapKittenItem child : childs){
             container.addView(child.view);
@@ -221,9 +240,8 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             parent.addView(container);
         return container;
     }
-    private LinearLayout horizontalBuild(){
+    private LinearLayout horizontalBuild(List<SnapKittenItem> childs){
         container.setOrientation(LinearLayout.HORIZONTAL);
-        container.setBackgroundColor(context.getResources().getColor(android.R.color.holo_red_dark));
         ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         for(SnapKittenItem child : childs){
             container.addView(child.view);
