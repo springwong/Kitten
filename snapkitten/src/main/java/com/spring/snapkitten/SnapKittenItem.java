@@ -16,6 +16,8 @@ class SnapKittenItem {
     int bottom = 0;
     int left = 0;
     int right = 0;
+
+    int itemOffset = 0;
     int compressionResistancePriority = 1000;
     KittenCondition width;
     KittenCondition height;
