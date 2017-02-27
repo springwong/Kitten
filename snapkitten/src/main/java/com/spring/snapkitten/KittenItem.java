@@ -10,7 +10,7 @@ import com.spring.snapkitten.interfaces.KittenInsertCondition;
  * Created by spring on 26/2/2017.
  */
 
-class SnapKittenItem {
+class KittenItem {
     View view;
 
     int itemOffset = 0;
@@ -26,7 +26,7 @@ class SnapKittenItem {
     boolean isFillParent = false;
     KittenInsertCondition condition;
 
-    public SnapKittenItem(View child, KittenAlignment alignment) {
+    public KittenItem(View child, KittenAlignment alignment) {
         this.view = child;
         this.alignment = alignment;
     }

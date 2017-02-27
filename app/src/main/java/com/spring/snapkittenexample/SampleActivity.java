@@ -9,7 +9,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.spring.snapkitten.SnapKitten;
+import com.spring.snapkitten.Kitten;
 import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.KittenWeight;
 import com.spring.snapkitten.enums.KittenAlignment;
@@ -17,8 +17,8 @@ import com.spring.snapkitten.enums.KittenOrientation;
 
 public class SampleActivity extends AppCompatActivity {
 
-    TextView textViewA = new TextView(SnapKitten.getContext());
-    TextView textViewB = new TextView(SnapKitten.getContext());
+    TextView textViewA = new TextView(Kitten.getContext());
+    TextView textViewB = new TextView(Kitten.getContext());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +29,7 @@ public class SampleActivity extends AppCompatActivity {
         setContentView(mainView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         View child = alignParentCard();
-        SnapKitten.create(KittenOrientation.vertical)
+        Kitten.create(KittenOrientation.vertical)
                 .from(mainView).isAlignDirectionEnd(true)
                 .add(textViewA)
                 .add(textViewB)
@@ -59,7 +59,7 @@ public class SampleActivity extends AppCompatActivity {
         textView1.setText("Most text editors like MS Word or Lotus Notes generate random lorem text when needed, either as pre-installed module or plug-in to be added. Word selection or sequence don't necessarily match the original, which is intended to add variety. Presentation software like Keynote or Pages use it as a samples for screenplay layout. Content management software as Joomla, Drupal, Mambo, PHP-Nuke, WordPress, or Movable Type offer Lorem Ipsum plug-ins with the same functionality."
         );
 
-        return SnapKitten.create(KittenOrientation.horizontal)
+        return Kitten.create(KittenOrientation.horizontal)
                 .from()
                 .defaultAlignment(KittenAlignment.start)
                 .itemDefaultSideStartPadding(10)
@@ -78,7 +78,7 @@ public class SampleActivity extends AppCompatActivity {
         textView.setText("test 123");
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
-        return SnapKitten.create(KittenOrientation.horizontal)
+        return Kitten.create(KittenOrientation.horizontal)
                 .from()
                 .defaultAlignment(KittenAlignment.center)
                 .add(imageView).size(200, KittenCompareEnum.equal).weight(KittenWeight.high)
