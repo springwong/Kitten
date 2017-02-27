@@ -172,18 +172,6 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
-    public KittenChildMethods compressResistance(int priority) {
-        currentChild.compressionResistancePriority = priority;
-        if(currentChild.compressionResistancePriority > 1000){
-            currentChild.compressionResistancePriority = 1000;
-        }
-        if(currentChild.compressionResistancePriority <= 0){
-            currentChild.compressionResistancePriority = 1;
-        }
-        return this;
-    }
-
-    @Override
     public KittenChildMethods width(Integer value, KittenCompare condition) {
         currentChild.width = new KittenCondition(value, condition);
         return this;
@@ -212,6 +200,11 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     public KittenChildMethods priority(KittenPriority priority) {
         currentChild.priority = priority;
         return this;
+    }
+
+    @Override
+    public KittenChildMethods weight(int weight) {
+        return null;
     }
 
     public View build(){
@@ -280,7 +273,6 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
             if (child.isFillParent){
                 linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             }
-            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);

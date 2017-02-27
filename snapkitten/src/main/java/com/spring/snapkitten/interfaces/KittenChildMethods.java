@@ -13,11 +13,11 @@ public interface KittenChildMethods extends KittenChild, KittenBuild {
     KittenChildMethods sideStartPadding(int value);
     KittenChildMethods sideEndPadding(int value);
     KittenChildMethods align(KittenAlignment align);
-    KittenChildMethods compressResistance(int priority);
     KittenChildMethods width(Integer value, KittenCompare condition);
     KittenChildMethods height(Integer value, KittenCompare condition);
     KittenChildMethods size(Integer value, KittenCompare condition);
     KittenChildMethods condition(KittenInsertCondition condition);
     KittenChildMethods fillParent();
-    KittenChildMethods priority(KittenPriority weight);
+    KittenChildMethods priority(KittenPriority priority);
+    KittenChildMethods weight(int weight);
 }
