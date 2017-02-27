@@ -36,6 +36,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     KittenOrientation orientation;
     protected int startPadding = 0;
     protected int endPadding = 0;
+    protected boolean isWeightMode = false;
 
     List<KittenItem> childs = new ArrayList<>();
     KittenItem currentChild;
@@ -117,6 +118,12 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     @Override
     public KittenParentMethods orientation(KittenOrientation orientation) {
         this.orientation = orientation;
+        return this;
+    }
+
+    @Override
+    public KittenParentMethods weightMode(boolean isOn) {
+        this.isWeightMode = isOn;
         return this;
     }
 
@@ -204,7 +211,8 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
 
     @Override
     public KittenChildMethods weight(int weight) {
-        return null;
+        currentChild.weight = weight;
+        return this;
     }
 
     public View build(){
@@ -256,7 +264,29 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                     linearLayoutParams.gravity = Gravity.RIGHT;
                     break;
             }
-            setupSize(child, linearLayoutParams);
+            setupWidth(child, linearLayoutParams);
+
+            if(isWeightMode){
+                linearLayoutParams.weight = child.weight;
+                linearLayoutParams.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            }else{
+                setupHeight(child, linearLayoutParams);
+                if (child.isFillParent){
+                    linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                }
+                switch (child.priority){
+                    case low:
+                        //a high number related to medium and high
+                        linearLayoutParams.weight = 1000;
+                        break;
+                    case medium:
+                        linearLayoutParams.weight = 1;
+                        break;
+                    case high:
+                        linearLayoutParams.weight = 0;
+                        break;
+                }
+            }
             if(childs.indexOf(child) == 0){
                 //first child
                 linearLayoutParams.topMargin = startPadding;
@@ -270,9 +300,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                 //last child
                 linearLayoutParams.bottomMargin = endPadding;
             }
-            if (child.isFillParent){
-                linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-            }
+
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);
@@ -302,7 +330,29 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                     params.width = ViewGroup.LayoutParams.MATCH_PARENT;
                     break;
             }
-            setupSize(child, linearLayoutParams);
+            setupHeight(child, linearLayoutParams);
+
+            if(isWeightMode){
+                linearLayoutParams.weight = child.weight;
+                linearLayoutParams.width = 0;
+            }else{
+                setupWidth(child, linearLayoutParams);
+                if (child.isFillParent){
+                    linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                }
+                switch (child.priority){
+                    case low:
+                        //a high number related to medium and high
+                        linearLayoutParams.weight = 1000;
+                        break;
+                    case medium:
+                        linearLayoutParams.weight = 1;
+                        break;
+                    case high:
+                        linearLayoutParams.weight = 0;
+                        break;
+                }
+            }
 
             if(childs.indexOf(child) == 0){
                 //first child
@@ -317,22 +367,6 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                 //last child
                 linearLayoutParams.rightMargin = endPadding;
             }
-            if (child.isFillParent){
-                linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-            }
-            switch (child.priority){
-                case low:
-                    //a high number related to medium and high
-                    linearLayoutParams.weight = 1000;
-                    break;
-                case medium:
-                    linearLayoutParams.weight = 1;
-                    break;
-                case high:
-                    linearLayoutParams.weight = 0;
-                    break;
-            }
-//            linearLayoutParams.priority = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);
@@ -371,7 +405,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
             view.setMinimumHeight(value);
         }
     }
-    private  void setupSize(KittenItem child, LinearLayout.LayoutParams linearLayoutParams){
+    private void setupWidth(KittenItem child, LinearLayout.LayoutParams linearLayoutParams) {
         if (child.width != null && child.width.value != null){
             Integer value = child.width.value;
             switch (child.width.condition){
@@ -386,6 +420,8 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                     break;
             }
         }
+    }
+    private void setupHeight(KittenItem child, LinearLayout.LayoutParams linearLayoutParams){
         if (child.height != null && child.height.value != null){
             Integer value = child.height.value;
             switch (child.height.condition){

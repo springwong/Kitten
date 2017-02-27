@@ -15,4 +15,5 @@ public interface KittenParentMethods extends KittenChild, KittenBuild {
     KittenParentMethods itemDefaultSideEndPadding(int value);
     KittenParentMethods isAlignDirectionEnd(boolean isAlign);
     KittenParentMethods orientation(KittenOrientation orientation);
+    KittenParentMethods weightMode(boolean isOn);
 }

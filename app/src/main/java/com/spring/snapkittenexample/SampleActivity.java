@@ -2,6 +2,7 @@ package com.spring.snapkittenexample;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -17,6 +18,7 @@ import com.spring.snapkitten.enums.KittenOrientation;
 
 public class SampleActivity extends AppCompatActivity {
 
+    private static String TAG = "Kitten";
     TextView textViewA = new TextView(Kitten.getContext());
     TextView textViewB = new TextView(Kitten.getContext());
 
@@ -31,6 +33,7 @@ public class SampleActivity extends AppCompatActivity {
         View child = alignParentCard();
         Kitten.create(KittenOrientation.vertical)
                 .from(mainView).isAlignDirectionEnd(true)
+                .add(weightExample())
                 .add(textViewA)
                 .add(textViewB)
                 .add(child)
@@ -83,6 +86,31 @@ public class SampleActivity extends AppCompatActivity {
                 .defaultAlignment(KittenAlignment.center)
                 .add(imageView).size(200, KittenCompare.equal).priority(KittenPriority.high)
                 .add(textView).itemOffset(40)
+                .build();
+    }
+
+    TextView viewA = new TextView(Kitten.getContext());
+    View viewB = new View(Kitten.getContext());
+    View viewC = new View(Kitten.getContext());
+    private View weightExample(){
+        viewA.setText("1233r 23r gergre");
+        viewA.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
+        viewB.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+        viewC.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
+
+        viewA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, ""+viewA.getWidth());
+                Log.d(TAG, ""+viewB.getWidth());
+                Log.d(TAG, ""+viewC.getWidth());
+            }
+        });
+        return Kitten.create(KittenOrientation.horizontal).from()
+                .weightMode(true).itemDefaultOffset(10).startPadding(20).endPadding(20)
+                .add(viewA).weight(2)
+                .add(viewB).weight(2)
+                .add(viewC).weight(1)
                 .build();
     }
 }
