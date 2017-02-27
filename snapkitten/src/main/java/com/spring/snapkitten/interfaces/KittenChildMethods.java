@@ -1,7 +1,7 @@
 package com.spring.snapkitten.interfaces;
 
 import com.spring.snapkitten.enums.KittenCompareEnum;
-import com.spring.snapkitten.enums.KittenWeight;
+import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 
 /**
@@ -18,5 +18,5 @@ public interface KittenChildMethods extends KittenChild, KittenBuild {
     KittenChildMethods size(Integer value, KittenCompareEnum condition);
     KittenChildMethods condition(KittenInsertCondition condition);
     KittenChildMethods fillParent();
-    KittenChildMethods weight(KittenWeight weight);
+    KittenChildMethods priority(KittenPriority weight);
 }

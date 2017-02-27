@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.spring.snapkitten.Kitten;
 import com.spring.snapkitten.enums.KittenCompareEnum;
-import com.spring.snapkitten.enums.KittenWeight;
+import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
 
@@ -67,7 +67,7 @@ public class SampleActivity extends AppCompatActivity {
                 .isAlignDirectionEnd(true)
                 .startPadding(15)
                 .endPadding(15)
-                .add(ivProfile).size(240, KittenCompareEnum.equal).weight(KittenWeight.high)
+                .add(ivProfile).size(240, KittenCompareEnum.equal).priority(KittenPriority.high)
                 .add(textView).height(240, KittenCompareEnum.max)
                 .add(textView1)
                 .build();
@@ -81,7 +81,7 @@ public class SampleActivity extends AppCompatActivity {
         return Kitten.create(KittenOrientation.horizontal)
                 .from()
                 .defaultAlignment(KittenAlignment.center)
-                .add(imageView).size(200, KittenCompareEnum.equal).weight(KittenWeight.high)
+                .add(imageView).size(200, KittenCompareEnum.equal).priority(KittenPriority.high)
                 .add(textView).itemOffset(40)
                 .build();
     }

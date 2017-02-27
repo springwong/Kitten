@@ -2,7 +2,7 @@ package com.spring.snapkitten;
 
 import android.view.View;
 
-import com.spring.snapkitten.enums.KittenWeight;
+import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
@@ -18,7 +18,7 @@ class KittenItem {
     int sideEndPadding = 0;
 
     int compressionResistancePriority = 1000;
-    KittenWeight weight = KittenWeight.medium;
+    KittenPriority priority = KittenPriority.medium;
 
     KittenCondition width;
     KittenCondition height;

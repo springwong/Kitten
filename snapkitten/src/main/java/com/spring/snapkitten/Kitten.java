@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.spring.snapkitten.enums.KittenCompareEnum;
-import com.spring.snapkitten.enums.KittenWeight;
+import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
 import com.spring.snapkitten.interfaces.KittenChild;
@@ -208,8 +208,8 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
-    public KittenChildMethods weight(KittenWeight weight) {
-        currentChild.weight = weight;
+    public KittenChildMethods priority(KittenPriority priority) {
+        currentChild.priority = priority;
         return this;
     }
 
@@ -327,7 +327,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
             if (child.isFillParent){
                 linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             }
-            switch (child.weight){
+            switch (child.priority){
                 case low:
                     //a high number related to medium and high
                     linearLayoutParams.weight = 1000;
@@ -339,7 +339,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                     linearLayoutParams.weight = 0;
                     break;
             }
-//            linearLayoutParams.weight = 1000 - child.compressionResistancePriority;
+//            linearLayoutParams.priority = 1000 - child.compressionResistancePriority;
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);
