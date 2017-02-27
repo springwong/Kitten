@@ -2,7 +2,7 @@ package com.spring.snapkittenexample;
 
 import android.app.Application;
 
-import com.spring.snapkitten.Kitten;
+import com.spring.snapkitten.core.Kitten;
 
 /**
  * Created by spring on 26/2/2017.

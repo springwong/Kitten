@@ -1,4 +1,4 @@
-package com.spring.snapkitten;
+package com.spring.snapkitten.core;
 
 import android.content.Context;
 import android.util.Log;
@@ -7,7 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.spring.snapkitten.enums.KittenCompareEnum;
+import com.spring.snapkitten.subclass.KittenCondition;
+import com.spring.snapkitten.enums.KittenCompare;
 import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
@@ -183,19 +184,19 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
-    public KittenChildMethods width(Integer value, KittenCompareEnum condition) {
+    public KittenChildMethods width(Integer value, KittenCompare condition) {
         currentChild.width = new KittenCondition(value, condition);
         return this;
     }
 
     @Override
-    public KittenChildMethods height(Integer value, KittenCompareEnum condition) {
+    public KittenChildMethods height(Integer value, KittenCompare condition) {
         currentChild.height = new KittenCondition(value, condition);
         return this;
     }
 
     @Override
-    public KittenChildMethods size(Integer value, KittenCompareEnum condition) {
+    public KittenChildMethods size(Integer value, KittenCompare condition) {
         currentChild.width = new KittenCondition(value, condition);
         currentChild.height = new KittenCondition(value, condition);
         return this;

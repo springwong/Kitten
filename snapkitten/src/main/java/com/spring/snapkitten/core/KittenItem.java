@@ -1,7 +1,8 @@
-package com.spring.snapkitten;
+package com.spring.snapkitten.core;
 
 import android.view.View;
 
+import com.spring.snapkitten.subclass.KittenCondition;
 import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
