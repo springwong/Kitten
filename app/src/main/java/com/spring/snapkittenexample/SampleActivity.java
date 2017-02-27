@@ -6,18 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.spring.snapkitten.SnapKitten;
 import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.KittenWeight;
-import com.spring.snapkitten.enums.SnapKittenAlignment;
-import com.spring.snapkitten.enums.SnapKittenOrientation;
-import com.spring.snapkitten.interfaces.KittenInsertCondition;
-
-import org.w3c.dom.Text;
+import com.spring.snapkitten.enums.KittenAlignment;
+import com.spring.snapkitten.enums.KittenOrientation;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -33,7 +29,7 @@ public class SampleActivity extends AppCompatActivity {
         setContentView(mainView, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         View child = alignParentCard();
-        SnapKitten.create(SnapKittenOrientation.vertical)
+        SnapKitten.create(KittenOrientation.vertical)
                 .from(mainView).isAlignDirectionEnd(true)
                 .add(textViewA)
                 .add(textViewB)
@@ -63,9 +59,9 @@ public class SampleActivity extends AppCompatActivity {
         textView1.setText("Most text editors like MS Word or Lotus Notes generate random lorem text when needed, either as pre-installed module or plug-in to be added. Word selection or sequence don't necessarily match the original, which is intended to add variety. Presentation software like Keynote or Pages use it as a samples for screenplay layout. Content management software as Joomla, Drupal, Mambo, PHP-Nuke, WordPress, or Movable Type offer Lorem Ipsum plug-ins with the same functionality."
         );
 
-        return SnapKitten.create(SnapKittenOrientation.horizontal)
+        return SnapKitten.create(KittenOrientation.horizontal)
                 .from()
-                .defaultAlignment(SnapKittenAlignment.start)
+                .defaultAlignment(KittenAlignment.start)
                 .itemDefaultSideStartPadding(10)
                 .itemDefaultSideEndPadding(10)
                 .isAlignDirectionEnd(true)
@@ -82,9 +78,9 @@ public class SampleActivity extends AppCompatActivity {
         textView.setText("test 123");
         ImageView imageView = new ImageView(this);
         imageView.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
-        return SnapKitten.create(SnapKittenOrientation.horizontal)
+        return SnapKitten.create(KittenOrientation.horizontal)
                 .from()
-                .defaultAlignment(SnapKittenAlignment.center)
+                .defaultAlignment(KittenAlignment.center)
                 .add(imageView).size(200, KittenCompareEnum.equal).weight(KittenWeight.high)
                 .add(textView).itemOffset(40)
                 .build();

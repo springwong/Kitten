@@ -2,9 +2,8 @@ package com.spring.snapkitten;
 
 import android.view.View;
 
-import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.KittenWeight;
-import com.spring.snapkitten.enums.SnapKittenAlignment;
+import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
 
 /**
@@ -23,11 +22,11 @@ class SnapKittenItem {
 
     KittenCondition width;
     KittenCondition height;
-    SnapKittenAlignment alignment;
+    KittenAlignment alignment;
     boolean isFillParent = false;
     KittenInsertCondition condition;
 
-    public SnapKittenItem(View child, SnapKittenAlignment alignment) {
+    public SnapKittenItem(View child, KittenAlignment alignment) {
         this.view = child;
         this.alignment = alignment;
     }

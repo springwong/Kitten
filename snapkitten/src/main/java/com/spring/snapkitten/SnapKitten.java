@@ -1,18 +1,16 @@
 package com.spring.snapkitten;
 
 import android.content.Context;
-import android.text.Layout;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.spring.snapkitten.enums.KittenCompareEnum;
 import com.spring.snapkitten.enums.KittenWeight;
-import com.spring.snapkitten.enums.SnapKittenAlignment;
-import com.spring.snapkitten.enums.SnapKittenOrientation;
+import com.spring.snapkitten.enums.KittenAlignment;
+import com.spring.snapkitten.enums.KittenOrientation;
 import com.spring.snapkitten.interfaces.KittenInsertCondition;
 import com.spring.snapkitten.interfaces.SnapKittenBuild;
 import com.spring.snapkitten.interfaces.SnapKittenChild;
@@ -34,14 +32,14 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
 
     LinearLayout container;
     ViewGroup parent;
-    SnapKittenOrientation orientation;
+    KittenOrientation orientation;
     protected int startPadding = 0;
     protected int endPadding = 0;
 
     List<SnapKittenItem> childs = new ArrayList<>();
     SnapKittenItem currentChild;
 
-    protected SnapKittenAlignment defaultAlignment = SnapKittenAlignment.parent;
+    protected KittenAlignment defaultAlignment = KittenAlignment.parent;
     protected boolean isAlignParentEnd = false;
 
     protected int defaultItemOffset = 0;
@@ -56,10 +54,10 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         return context;
     }
 
-    public static SnapKittenParent create(SnapKittenOrientation orientation){
+    public static SnapKittenParent create(KittenOrientation orientation){
         return new SnapKitten(orientation);
     }
-    private SnapKitten(SnapKittenOrientation orientation){
+    private SnapKitten(KittenOrientation orientation){
         this.orientation = orientation;
         container = new LinearLayout(context);
     }
@@ -74,7 +72,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public SnapKittenParentMethods defaultAlignment(SnapKittenAlignment alignment) {
+    public SnapKittenParentMethods defaultAlignment(KittenAlignment alignment) {
         this.defaultAlignment = alignment;
         return this;
     }
@@ -116,7 +114,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public SnapKittenParentMethods orientation(SnapKittenOrientation orientation) {
+    public SnapKittenParentMethods orientation(KittenOrientation orientation) {
         this.orientation = orientation;
         return this;
     }
@@ -167,7 +165,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
     }
 
     @Override
-    public SnapKittenChildMethods align(SnapKittenAlignment align) {
+    public SnapKittenChildMethods align(KittenAlignment align) {
         currentChild.alignment = align;
         return this;
     }
@@ -222,10 +220,10 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
                 filteredList.add(child);
             }
         }
-        if(orientation == SnapKittenOrientation.vertical){
+        if(orientation == KittenOrientation.vertical){
             return verticalBuild(filteredList);
         }
-        if(orientation == SnapKittenOrientation.horizontal){
+        if(orientation == KittenOrientation.horizontal){
             return  horizontalBuild(filteredList);
         }
         return container;
@@ -250,7 +248,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
         for(SnapKittenItem child : childs){
             container.addView(child.view);
             LinearLayout.LayoutParams linearLayoutParams
-                    = new LinearLayout.LayoutParams(child.alignment == SnapKittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    = new LinearLayout.LayoutParams(child.alignment == KittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             switch (child.alignment){
                 case start:
                     linearLayoutParams.gravity = Gravity.LEFT;
@@ -296,7 +294,7 @@ public final class SnapKitten implements SnapKittenChildMethods, SnapKittenChild
             container.addView(child.view);
             ViewGroup.LayoutParams layoutParams = child.view.getLayoutParams();
             LinearLayout.LayoutParams linearLayoutParams
-                    = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, child.alignment == SnapKittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+                    = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, child.alignment == KittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
             switch (child.alignment){
                 case start:
                     linearLayoutParams.gravity = Gravity.TOP;
