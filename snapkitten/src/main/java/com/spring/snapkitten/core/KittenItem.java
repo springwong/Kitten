@@ -18,7 +18,7 @@ class KittenItem {
     int sideStartPadding = 0;
     int sideEndPadding = 0;
 
-    KittenPriority priority = KittenPriority.medium;
+    KittenPriority priority = KittenPriority.high;
     int weight = 0;
 
     KittenCondition width;

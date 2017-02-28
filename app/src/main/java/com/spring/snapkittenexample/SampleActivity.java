@@ -1,5 +1,6 @@
 package com.spring.snapkittenexample;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -101,9 +102,9 @@ public class SampleActivity extends AppCompatActivity {
         viewA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.d(TAG, ""+viewA.getWidth());
-                Log.d(TAG, ""+viewB.getWidth());
-                Log.d(TAG, ""+viewC.getWidth());
+                Intent intent = new Intent();
+                intent.setClass(SampleActivity.this, AlignBottomExample.class);
+                startActivity(intent);
             }
         });
         return Kitten.create(KittenOrientation.horizontal).from()

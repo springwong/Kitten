@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SnapKittenExample</string>
+    <string name="title_activity_align_bottom_example">AlignBottomExample</string>
+    <string name="action_settings">Settings</string>
 </resources>

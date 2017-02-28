@@ -18,10 +18,8 @@ public class KittenBind {
         for(Field field : fields){
             BindContext bindContext = field.getAnnotation(BindContext.class);
             if(bindContext != null){
-                Log.d("Test", "I found my Bind");
                 Class tClass = field.getType();
                 if (View.class.isAssignableFrom(tClass)){
-                    Log.d("Test", "I found my View");
                     try{
                         Constructor constructor = tClass.getConstructor(Context.class);
                         field.set(object, constructor.newInstance(context));

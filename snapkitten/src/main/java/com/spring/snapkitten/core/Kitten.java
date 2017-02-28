@@ -273,18 +273,20 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                 setupHeight(child, linearLayoutParams);
                 if (child.isFillParent){
                     linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
-                }
-                switch (child.priority){
-                    case low:
-                        //a high number related to medium and high
-                        linearLayoutParams.weight = 1000;
-                        break;
-                    case medium:
-                        linearLayoutParams.weight = 1;
-                        break;
-                    case high:
-                        linearLayoutParams.weight = 0;
-                        break;
+                    linearLayoutParams.weight = 1;
+                }else {
+                    switch (child.priority){
+                        case low:
+                            //a high number related to medium and high
+                            linearLayoutParams.weight = 1000;
+                            break;
+                        case medium:
+                            linearLayoutParams.weight = 1;
+                            break;
+                        case high:
+                            linearLayoutParams.weight = 0;
+                            break;
+                    }
                 }
             }
             if(childs.indexOf(child) == 0){
@@ -337,20 +339,22 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                 linearLayoutParams.width = 0;
             }else{
                 setupWidth(child, linearLayoutParams);
-                if (child.isFillParent){
+                if (child.isFillParent) {
                     linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                }
-                switch (child.priority){
-                    case low:
-                        //a high number related to medium and high
-                        linearLayoutParams.weight = 1000;
-                        break;
-                    case medium:
-                        linearLayoutParams.weight = 1;
-                        break;
-                    case high:
-                        linearLayoutParams.weight = 0;
-                        break;
+                    linearLayoutParams.weight = 1;
+                }else{
+                    switch (child.priority){
+                        case low:
+                            //a high number related to medium and high
+                            linearLayoutParams.weight = 1000;
+                            break;
+                        case medium:
+                            linearLayoutParams.weight = 1;
+                            break;
+                        case high:
+                            linearLayoutParams.weight = 0;
+                            break;
+                    }
                 }
             }
 
