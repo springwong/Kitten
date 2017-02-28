@@ -27,6 +27,11 @@ public class AlignBottomExampleFragment extends Fragment {
     @BindContext
     TextView btn;
 
+    @BindContext
+    TextView lbl;
+    @BindContext
+    TextView btnB;
+
     public AlignBottomExampleFragment() {
     }
 
@@ -42,6 +47,15 @@ public class AlignBottomExampleFragment extends Fragment {
                 .isAlignDirectionEnd(true).defaultAlignment(KittenAlignment.parent)
         .add(sv).fillParent()
                 .add(btn)
+                .build();
+
+        lbl.setText("jojvweo voiwev");
+        btnB.setText("End Button");
+
+        btnB.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
+        Kitten.create(KittenOrientation.vertical).from(sv)
+                .add(lbl).align(KittenAlignment.center)
+        .add(btnB).align(KittenAlignment.end).itemOffset(20).sideEndPadding(50)
                 .build();
         return mainView;
     }

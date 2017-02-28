@@ -77,8 +77,8 @@ public class SampleActivity extends AppCompatActivity {
                 .startPadding(15)
                 .endPadding(15)
                 .add(ivProfile).size(240, KittenCompare.equal).priority(KittenPriority.high)
-                .add(textView).height(240, KittenCompare.max)
-                .add(textView1)
+                .add(textView)//.height(240, KittenCompare.max)
+//                .add(textView1)
                 .build();
     }
 
