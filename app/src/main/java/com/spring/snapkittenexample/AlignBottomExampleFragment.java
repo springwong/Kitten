@@ -33,7 +33,7 @@ public class AlignBottomExampleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        KittenBind.bind(this, this.getContext());
+        KittenBind.bind(this);
         btn.setText("12 e12e 1");
         sv.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
         btn.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));

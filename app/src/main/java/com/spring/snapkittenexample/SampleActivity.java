@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.spring.snapkitten.annotation.BindContext;
+import com.spring.snapkitten.annotation.KittenBind;
 import com.spring.snapkitten.core.Kitten;
 import com.spring.snapkitten.enums.KittenCompare;
 import com.spring.snapkitten.enums.KittenPriority;
@@ -20,12 +22,15 @@ import com.spring.snapkitten.enums.KittenOrientation;
 public class SampleActivity extends AppCompatActivity {
 
     private static String TAG = "Kitten";
-    TextView textViewA = new TextView(Kitten.getContext());
-    TextView textViewB = new TextView(Kitten.getContext());
+    @BindContext
+    TextView textViewA;
+    @BindContext
+    TextView textViewB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        KittenBind.bind(this);
         updateUI();
 
         ScrollView mainView = new ScrollView(this);
