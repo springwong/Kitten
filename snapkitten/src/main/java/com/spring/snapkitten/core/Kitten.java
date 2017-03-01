@@ -228,12 +228,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                 filteredList.add(child);
             }
         }
-        if(orientation == KittenOrientation.vertical){
-            return verticalBuild(filteredList);
-        }
-        if(orientation == KittenOrientation.horizontal){
-            return  horizontalBuild(filteredList);
-        }
+        mixBuild(filteredList);
         return container;
     }
 
@@ -243,63 +238,107 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
         return build();
     }
 
-    private View verticalBuild(List<KittenItem> childs){
-        container.setOrientation(LinearLayout.VERTICAL);
-        //what affect containerLength is it's parent, if parent is not wrap_content, follow it to expand container size
+    private View mixBuild(List<KittenItem> childs){
+        if(orientation == KittenOrientation.vertical){
+            container.setOrientation(LinearLayout.VERTICAL);
+        }else{
+            container.setOrientation(LinearLayout.HORIZONTAL);
+        }
+
         int containerLength = ViewGroup.LayoutParams.WRAP_CONTENT;
-        if(parent != null){
-            if(parent.getLayoutParams().width != ViewGroup.LayoutParams.WRAP_CONTENT){
-                containerLength = ViewGroup.LayoutParams.MATCH_PARENT;
+        if(parent!=null){
+            if (orientation == KittenOrientation.vertical){
+                if(parent.getLayoutParams().width != ViewGroup.LayoutParams.WRAP_CONTENT){
+                    containerLength = ViewGroup.LayoutParams.MATCH_PARENT;
+                }
+            }else{
+                if(parent.getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT){
+                    containerLength = ViewGroup.LayoutParams.MATCH_PARENT;
+                }
             }
         }
         ViewGroup.LayoutParams params = container.getLayoutParams();
-        if(params == null){
-            //if align parent end, the length of container should be try to fit the while size of parent
-            params = new ViewGroup.LayoutParams(containerLength, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+        if (params == null){
+            if(orientation == KittenOrientation.vertical){
+                params = new ViewGroup.LayoutParams(containerLength, isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+            }else{
+                params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, containerLength);
+            }
         }else{
-            //should i set the params width height here?
-            //if it's update, update the width / height instead of apply params as some error may occur
-            params.width = containerLength;
-            params.height =  isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
+            if (orientation == KittenOrientation.vertical) {
+                params.width = containerLength;
+                params.height =  isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
+            }else{
+                params.width = isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
+                params.height =  containerLength;
+            }
         }
         for(KittenItem child : childs){
             container.addView(child.view);
-            //perpendicular direction try to match_parent if align parent
-            LinearLayout.LayoutParams linearLayoutParams
-            = new LinearLayout.LayoutParams(child.alignment == KittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            switch (child.alignment){
-                //set gravity in linear layout params in different case
-                case start:
-                    linearLayoutParams.gravity = Gravity.LEFT;
-                    break;
-                case center:
-                    linearLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
-                    break;
-                case parent:
-                    params.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                case end:
-                    linearLayoutParams.gravity = Gravity.RIGHT;
-                    break;
+            LinearLayout.LayoutParams linearLayoutParams;
+            if(orientation == KittenOrientation.vertical){
+                linearLayoutParams = new LinearLayout.LayoutParams(
+                        child.alignment == KittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT
+                        , ViewGroup.LayoutParams.WRAP_CONTENT);
+                switch (child.alignment){
+                    //set gravity in linear layout params in different case
+                    case start:
+                        linearLayoutParams.gravity = Gravity.LEFT;
+                        break;
+                    case center:
+                        linearLayoutParams.gravity = Gravity.CENTER_HORIZONTAL;
+                        break;
+                    case end:
+                        linearLayoutParams.gravity = Gravity.RIGHT;
+                    case parent:
+                        params.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                        break;
+                }
+                setupWidth(child, linearLayoutParams);
+            }else{
+                linearLayoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                        , child.alignment == KittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
+                switch (child.alignment){
+                    case start:
+                        linearLayoutParams.gravity = Gravity.TOP;
+                        break;
+                    case center:
+                        linearLayoutParams.gravity = Gravity.CENTER_VERTICAL;
+                        break;
+                    case end:
+                        linearLayoutParams.gravity = Gravity.BOTTOM;
+                        break;
+                    case parent:
+                        params.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                        break;
+                }
+                setupHeight(child, linearLayoutParams);
             }
-            //setup perpendicular size
-            setupWidth(child, linearLayoutParams);
-
             if(isWeightMode){
                 //in weight mode , the height always 0 to make weight handle the rest
+                if(orientation == KittenOrientation.vertical) {
+                    linearLayoutParams.height = 0;
+                }else{
+                    linearLayoutParams.width = 0;
+                }
                 linearLayoutParams.weight = child.weight;
-                linearLayoutParams.height = 0;
-            }else{
-                //allow user to set height in non-weight mode
-                setupHeight(child, linearLayoutParams);
-                if (child.isFillParent){
-                    //if fill parent , make its orientation match_parent, and the weight become lower than default
-                    linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+
+            }else {
+                if (orientation == KittenOrientation.vertical) {
+                    setupHeight(child, linearLayoutParams);
+                } else {
+                    setupWidth(child, linearLayoutParams);
+                }
+                if (child.isFillParent) {
                     linearLayoutParams.weight = 1;
-                }else {
-                    //for non fill parent case, the weight can be set with priority
-                    //height priority make it always show if possible
-                    //priority with low and medium always compress by high priority item
-                    switch (child.priority){
+                    if (orientation == KittenOrientation.vertical) {
+                        linearLayoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+                    } else {
+                        linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+                    }
+                } else {
+                    switch (child.priority) {
                         case low:
                             //a high number related to medium and high
                             linearLayoutParams.weight = 1000;
@@ -313,23 +352,38 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                     }
                 }
             }
-            //set up offset and padding
-            if(childs.indexOf(child) == 0){
-                //first child
-                linearLayoutParams.topMargin = startPadding;
-            }else {
-                linearLayoutParams.topMargin = child.itemOffset;
-            }
-            //setup perpendicular margin
-            //to sync with ios side, vertical arrange with ignore end margin except last item
-            linearLayoutParams.leftMargin = child.sideStartPadding;
-            linearLayoutParams.rightMargin = child.sideEndPadding;
-            //setup end side padding
-            if(childs.indexOf(child) == childs.size() - 1){
-                //last child
-                linearLayoutParams.bottomMargin = endPadding;
-            }
 
+            if(orientation == KittenOrientation.vertical){
+                if(childs.indexOf(child) == 0){
+                    //first child
+                    linearLayoutParams.topMargin = startPadding;
+                }else {
+                    linearLayoutParams.topMargin = child.itemOffset;
+                }
+                //setup perpendicular margin
+                //to sync with ios side, vertical arrange with ignore end margin except last item
+                linearLayoutParams.leftMargin = child.sideStartPadding;
+                linearLayoutParams.rightMargin = child.sideEndPadding;
+                //setup end side padding
+                if(childs.indexOf(child) == childs.size() - 1){
+                    //last child
+                    linearLayoutParams.bottomMargin = endPadding;
+                }
+            }else{
+                if(childs.indexOf(child) == 0){
+                    //first child
+                    linearLayoutParams.leftMargin = startPadding;
+                }else {
+                    linearLayoutParams.leftMargin = child.itemOffset;
+                }
+                //to sync with ios side, vertical arrange with ignore end margin except last item
+                linearLayoutParams.topMargin = child.sideStartPadding;
+                linearLayoutParams.bottomMargin = child.sideEndPadding;
+                if(childs.indexOf(child) == childs.size() - 1){
+                    //last child
+                    linearLayoutParams.rightMargin = endPadding;
+                }
+            }
             child.view.setLayoutParams(linearLayoutParams);
         }
         container.setLayoutParams(params);
@@ -337,89 +391,6 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
         if(parent != null && container.getParent() == null)
             parent.addView(container);
         //always return generated container
-        return container;
-    }
-    private View horizontalBuild(List<KittenItem> childs){
-        container.setOrientation(LinearLayout.HORIZONTAL);
-        int containerLength = ViewGroup.LayoutParams.WRAP_CONTENT;
-        if(parent != null){
-            if(parent.getLayoutParams().height != ViewGroup.LayoutParams.WRAP_CONTENT){
-                containerLength = ViewGroup.LayoutParams.MATCH_PARENT;
-            }
-        }
-        ViewGroup.LayoutParams params = container.getLayoutParams();
-        if(params == null){
-            //if align parent end, the length of container should be try to fit the while size of parent
-            params = new ViewGroup.LayoutParams(isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT, containerLength);
-        }else{
-            //should i set the params width height here?
-            //if it's update, update the width / height instead of apply params as some error may occur
-            params.width = isAlignParentEnd ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT;
-            params.height =  containerLength;
-        }
-        for(KittenItem child : childs){
-            container.addView(child.view);
-            ViewGroup.LayoutParams layoutParams = child.view.getLayoutParams();
-            LinearLayout.LayoutParams linearLayoutParams
-                    = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, child.alignment == KittenAlignment.parent ? ViewGroup.LayoutParams.MATCH_PARENT : ViewGroup.LayoutParams.WRAP_CONTENT);
-            switch (child.alignment){
-                case start:
-                    linearLayoutParams.gravity = Gravity.TOP;
-                    break;
-                case center:
-                    linearLayoutParams.gravity = Gravity.CENTER_VERTICAL;
-                    break;
-                case end:
-                    linearLayoutParams.gravity = Gravity.BOTTOM;
-                    break;
-                case parent:
-                    params.height = ViewGroup.LayoutParams.MATCH_PARENT;
-                    break;
-            }
-            setupHeight(child, linearLayoutParams);
-
-            if(isWeightMode){
-                linearLayoutParams.weight = child.weight;
-                linearLayoutParams.width = 0;
-            }else{
-                setupWidth(child, linearLayoutParams);
-                if (child.isFillParent) {
-                    linearLayoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
-                    linearLayoutParams.weight = 1;
-                }else{
-                    switch (child.priority){
-                        case low:
-                            //a high number related to medium and high
-                            linearLayoutParams.weight = 1000;
-                            break;
-                        case medium:
-                            linearLayoutParams.weight = 1;
-                            break;
-                        case high:
-                            linearLayoutParams.weight = 0;
-                            break;
-                    }
-                }
-            }
-
-            if(childs.indexOf(child) == 0){
-                //first child
-                linearLayoutParams.leftMargin = startPadding;
-            }else {
-                linearLayoutParams.leftMargin = child.itemOffset;
-            }
-            //to sync with ios side, vertical arrange with ignore end margin except last item
-            linearLayoutParams.topMargin = child.sideStartPadding;
-            linearLayoutParams.bottomMargin = child.sideEndPadding;
-            if(childs.indexOf(child) == childs.size() - 1){
-                //last child
-                linearLayoutParams.rightMargin = endPadding;
-            }
-            child.view.setLayoutParams(linearLayoutParams);
-        }
-        container.setLayoutParams(params);
-        if (parent != null)
-            parent.addView(container);
         return container;
     }
 
