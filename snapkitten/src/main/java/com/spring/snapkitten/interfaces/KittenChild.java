@@ -8,4 +8,5 @@ import android.view.View;
 public interface KittenChild extends KittenBuild {
     KittenChildMethods add(View view);
     KittenChildMethods with(View view);
+    KittenChildMethods addChilds(View... views);
 }

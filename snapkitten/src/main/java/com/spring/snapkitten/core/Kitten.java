@@ -144,6 +144,14 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
+    public KittenChildMethods addChilds(View... views) {
+        for(View view : views){
+            add(view);
+        }
+        return this;
+    }
+
+    @Override
     public KittenChildMethods fillParent() {
         currentChild.isFillParent = true;
         return this;
