@@ -69,6 +69,12 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
+    public KittenParentMethods from(LinearLayout parent) {
+        container = parent;
+        return this;
+    }
+
+    @Override
     public KittenParentMethods from() {
         return this;
     }
