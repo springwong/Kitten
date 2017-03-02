@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.spring.snapkitten.interfaces.KittenSizeConversion;
 import com.spring.snapkitten.subclass.KittenCondition;
 import com.spring.snapkitten.enums.KittenCompare;
 import com.spring.snapkitten.enums.KittenPriority;
@@ -30,6 +31,7 @@ import java.util.List;
 
 public final class Kitten implements KittenChildMethods, KittenChild, KittenBuild, KittenParent, KittenParentMethods {
     private static Context context;
+    private static KittenSizeConversion sizeConversion;
 
     LinearLayout container;
     ViewGroup parent;
@@ -50,6 +52,9 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
 
     public static void initialize(Context context){
         Kitten.context = context;
+    }
+    public static void setup(KittenSizeConversion sizeConvertion){
+        Kitten.sizeConversion = sizeConvertion;
     }
 
     public static Context getContext(){
@@ -88,30 +93,45 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     @Override
     public KittenParentMethods startPadding(int value) {
         this.startPadding = value;
+        if(sizeConversion !=null){
+            this.startPadding = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
     @Override
     public KittenParentMethods endPadding(int value) {
         this.endPadding = value;
+        if(sizeConversion !=null){
+            this.endPadding = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
     @Override
     public KittenParentMethods itemDefaultOffset(int value) {
         this.defaultItemOffset = value;
+        if(sizeConversion !=null){
+            this.defaultItemOffset = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
     @Override
     public KittenParentMethods itemDefaultSideStartPadding(int value) {
         this.defaultItemSideStartPadding = value;
+        if(sizeConversion !=null){
+            this.defaultItemSideStartPadding = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
     @Override
     public KittenParentMethods itemDefaultSideEndPadding(int value) {
         this.defaultItemSideEndPadding = value;
+        if(sizeConversion !=null){
+            this.defaultItemSideEndPadding = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
@@ -179,18 +199,27 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     @Override
     public KittenChildMethods sideEndPadding(int value) {
         currentChild.sideEndPadding = value;
+        if(sizeConversion !=null){
+            currentChild.sideEndPadding = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
     @Override
     public KittenChildMethods sideStartPadding(int value) {
         currentChild.sideStartPadding = value;
+        if(sizeConversion !=null){
+            currentChild.sideStartPadding = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
     @Override
     public KittenChildMethods itemOffset(int value) {
         currentChild.itemOffset = value;
+        if(sizeConversion !=null) {
+            currentChild.itemOffset = (sizeConversion.paddingConvert(value));
+        }
         return this;
     }
 
@@ -203,12 +232,18 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     @Override
     public KittenChildMethods width(Integer value, KittenCompare condition) {
         currentChild.width = new KittenCondition(value, condition);
+        if(sizeConversion != null){
+            currentChild.width.value = sizeConversion.sizeConvert(value);
+        }
         return this;
     }
 
     @Override
     public KittenChildMethods height(Integer value, KittenCompare condition) {
         currentChild.height = new KittenCondition(value, condition);
+        if(sizeConversion != null){
+            currentChild.height.value = sizeConversion.sizeConvert(value);
+        }
         return this;
     }
 
@@ -216,6 +251,10 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     public KittenChildMethods size(Integer value, KittenCompare condition) {
         currentChild.width = new KittenCondition(value, condition);
         currentChild.height = new KittenCondition(value, condition);
+        if(sizeConversion != null){
+            currentChild.width.value = sizeConversion.sizeConvert(value);
+            currentChild.height.value = sizeConversion.sizeConvert(value);
+        }
         return this;
     }
 
