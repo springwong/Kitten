@@ -11,4 +11,7 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface BindContext{}
+public @interface BindContext{
+    int style() default 0;
+    int background() default -1;
+}
