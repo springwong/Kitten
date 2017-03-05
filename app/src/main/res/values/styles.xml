@@ -20,8 +20,8 @@
     <style name="textStyleExample">
         <item name="android:background">@android:color/holo_red_light</item>
         <item name="android:visibility">visible</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">20dp</item>
+        <item name="android:gravity">left</item>
+        <item name="android:paddingLeft">@dimen/test</item>
         <item name="android:padding">10dp</item>
     </style>
 </resources>

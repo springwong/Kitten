@@ -10,8 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.spring.snapkitten.annotation.BindContext;
-import com.spring.snapkitten.annotation.KittenBind;
+import com.spring.kittenbinder.annotation.BindContext;
+import com.spring.kittenbinder.binding.KittenBind;
 import com.spring.snapkitten.core.Kitten;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;

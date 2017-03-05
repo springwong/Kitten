@@ -11,8 +11,9 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.spring.snapkitten.annotation.BindContext;
-import com.spring.snapkitten.annotation.KittenBind;
+import com.spring.kittenbinder.annotation.BindContext;
+import com.spring.kittenbinder.annotation.BindTextView;
+import com.spring.kittenbinder.binding.KittenBind;
 import com.spring.snapkitten.core.Kitten;
 import com.spring.snapkitten.enums.KittenCompare;
 import com.spring.snapkitten.enums.KittenPriority;
@@ -22,9 +23,7 @@ import com.spring.snapkitten.enums.KittenOrientation;
 public class SampleActivity extends AppCompatActivity {
 
     private static String TAG = "Kitten";
-    @BindContext(style = R.style.textStyleExample
-//            , background = android.R.color.holo_orange_dark
-    )
+    @BindContext
     TextView textViewA;
     @BindContext
     TextView textViewB;

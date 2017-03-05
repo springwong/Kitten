@@ -17,7 +17,6 @@
         <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/kitten"
             android:id="@+id/imageButton"
             android:layout_weight="1" />
 
@@ -59,7 +58,6 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/kitten"
         android:id="@+id/imageView" />
 
     <EditText
