@@ -30,8 +30,8 @@ import java.util.List;
  */
 
 public final class Kitten implements KittenChildMethods, KittenChild, KittenBuild, KittenParent, KittenParentMethods {
-    private static Context context;
-    private static KittenSizeConversion sizeConversion;
+//    private Context context;
+    private KittenSizeConversion sizeConversion;
 
     LinearLayout container;
     ViewGroup parent;
@@ -50,22 +50,23 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     protected int defaultItemSideStartPadding = 0;
     protected int defaultItemSideEndPadding = 0;
 
-    public static void initialize(Context context){
-        Kitten.context = context;
-    }
-    public static void setup(KittenSizeConversion sizeConvertion){
-        Kitten.sizeConversion = sizeConvertion;
-    }
+//    public static void initialize(Context context){
+//        Kitten.context = context;
+//    }
+//    public static void setup(KittenSizeConversion sizeConvertion){
+//        Kitten.sizeConversion = sizeConvertion;
+//    }
 
-    public static Context getContext(){
-        return context;
-    }
+//    public static Context getContext(){
+//        return context;
+//    }
 
     public static KittenParent create(KittenOrientation orientation){
-        return new Kitten(orientation);
+        return new Kitten(orientation, SnapKitten.getContext(), SnapKitten.getSizeConversion());
     }
-    private Kitten(KittenOrientation orientation){
+    private Kitten(KittenOrientation orientation, Context context, KittenSizeConversion conversion){
         this.orientation = orientation;
+        this.sizeConversion = conversion;
         container = new LinearLayout(context);
     }
     public KittenParentMethods from(ViewGroup parent){
@@ -349,7 +350,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                         params.width = ViewGroup.LayoutParams.MATCH_PARENT;
                         break;
                 }
-                setupWidth(child, linearLayoutParams);
+                KittenCommonMethod.setupWidth(child.view, child.width, linearLayoutParams);
             }else{
                 linearLayoutParams = new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT
@@ -368,7 +369,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
                         params.height = ViewGroup.LayoutParams.MATCH_PARENT;
                         break;
                 }
-                setupHeight(child, linearLayoutParams);
+                KittenCommonMethod.setupHeight(child.view, child.height, linearLayoutParams);
             }
             if(isWeightMode){
                 //in weight mode , the height always 0 to make weight handle the rest
@@ -381,9 +382,9 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
 
             }else {
                 if (orientation == KittenOrientation.vertical) {
-                    setupHeight(child, linearLayoutParams);
+                    KittenCommonMethod.setupHeight(child.view, child.height, linearLayoutParams);
                 } else {
-                    setupWidth(child, linearLayoutParams);
+                    KittenCommonMethod.setupWidth(child.view, child.height, linearLayoutParams);
                 }
                 if (child.isFillParent) {
                     linearLayoutParams.weight = 1;
@@ -447,68 +448,5 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
             parent.addView(container);
         //always return generated container
         return container;
-    }
-
-    private boolean setSizeMethod(String methodName, View view, int value){
-        try{
-            Method method = view.getClass().getMethod(methodName, int.class);
-            method.invoke(view, value);
-            return true;
-        }catch (NoSuchMethodException ex){
-
-        }catch (IllegalAccessException ex){
-
-        }catch (InvocationTargetException ex){
-
-        }
-        return false;
-    }
-    private void setMaxWidth(View view, int value){
-        setSizeMethod("setMaxWidth", view, value);
-    }
-    private void setMaxHeight(View view, int value){
-        setSizeMethod("setMaxHeight", view, value);
-    }
-    private void setMinWidth(View view, int value){
-        if(!setSizeMethod("setMinWidth", view, value)){
-            view.setMinimumWidth(value);
-        }
-    }
-    private void setMinHeight(View view, int value){
-        if(setSizeMethod("setMinHeight", view, value)){
-            view.setMinimumHeight(value);
-        }
-    }
-    private void setupWidth(KittenItem child, LinearLayout.LayoutParams linearLayoutParams) {
-        if (child.width != null && child.width.value != null){
-            Integer value = child.width.value;
-            switch (child.width.condition){
-                case equal:
-                    linearLayoutParams.width = value;
-                    break;
-                case min:
-                    setMinWidth(child.view, value);
-                    break;
-                case max:
-                    setMaxWidth(child.view, value);
-                    break;
-            }
-        }
-    }
-    private void setupHeight(KittenItem child, LinearLayout.LayoutParams linearLayoutParams){
-        if (child.height != null && child.height.value != null){
-            Integer value = child.height.value;
-            switch (child.height.condition){
-                case equal:
-                    linearLayoutParams.height = value;
-                    break;
-                case min:
-                    setMinHeight(child.view, value);
-                    break;
-                case max:
-                    setMaxHeight(child.view, value);
-                    break;
-            }
-        }
     }
 }

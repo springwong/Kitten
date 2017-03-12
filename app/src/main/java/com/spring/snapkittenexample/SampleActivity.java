@@ -14,11 +14,14 @@ import android.widget.TextView;
 import com.spring.kittenbinder.annotation.BindContext;
 import com.spring.kittenbinder.annotation.BindTextView;
 import com.spring.kittenbinder.binding.KittenBind;
+import com.spring.snapkitten.core.Cub;
 import com.spring.snapkitten.core.Kitten;
 import com.spring.snapkitten.enums.KittenCompare;
 import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
+
+import org.w3c.dom.Text;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -43,9 +46,28 @@ public class SampleActivity extends AppCompatActivity {
 //        textViewC.setBackgroundColor(getResources().getColor(android.R.color.holo_red_dark));
 //        textViewC.setTextAppearance(R.style.textStyleExample);
 
+        TextView tv1 = new TextView(this);
+        tv1.setText("wefjwe jwej iowvoiwe");
+        TextView tv2 = new TextView(this);
+        tv2.setText("weofjew ojvew");
+
+        ImageView iv1 = new ImageView(this);
+        iv1.setImageResource(android.R.drawable.btn_default);
+        iv1.setScaleType(ImageView.ScaleType.FIT_XY);
+        ImageView iv2 = new ImageView(this);
+        iv2.setImageResource(android.R.drawable.btn_default);
+        iv2.setScaleType(ImageView.ScaleType.FIT_XY);
+        View temp =
+        Cub.create().from()
+                .add(iv1).size(40, KittenCompare.equal)
+                .add(iv2).size(20, KittenCompare.equal).alignRight(iv1).alignParentTop()
+                .build();
+        temp.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
+
         View child = alignParentCard();
         Kitten.create(KittenOrientation.vertical)
                 .from(mainView).isAlignDirectionEnd(true)
+                .add(temp).align(KittenAlignment.start)
                 .add(weightExample())
                 .add(textViewA)
                 .add(textViewB)
@@ -106,10 +128,10 @@ public class SampleActivity extends AppCompatActivity {
                 .build();
     }
 
-    TextView viewA = new TextView(Kitten.getContext());
-    View viewB = new View(Kitten.getContext());
-    View viewC = new View(Kitten.getContext());
     private View weightExample(){
+        TextView viewA = new TextView(this);
+        View viewB = new View(this);
+        View viewC = new View(this);
         viewA.setText("1233r 23r gergre");
         viewA.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
         viewB.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
