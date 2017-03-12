@@ -110,6 +110,9 @@ public final class Cub implements CubParent, CubParentMethods, CubChild, CubChil
         return this;
     }
 
+    //note : there is a known difference in ios and android in alignParentRight
+    //if the width is unknown, android side will try to fit the item the most right of container / parent
+    //ios side will just align to right most item in the container
     @Override
     public CubChildMethods alignParentRight() {
         currentChild.rightAction = new CubRelativeAction(null, CubAction.alignParentRight);
@@ -214,6 +217,39 @@ public final class Cub implements CubParent, CubParentMethods, CubChild, CubChil
             currentChild.width.value = sizeConversion.sizeConvert(value);
             currentChild.height.value = sizeConversion.sizeConvert(value);
         }
+        return this;
+    }
+
+    @Override
+    public CubChildMethods offset(int value) {
+        currentChild.topOffset = value;
+        currentChild.leftOffset = value;
+        currentChild.bottomOffset = value;
+        currentChild.rightOffset = value;
+        return this;
+    }
+
+    @Override
+    public CubChildMethods leftOffset(int value) {
+        currentChild.leftOffset = value;
+        return this;
+    }
+
+    @Override
+    public CubChildMethods rightOffset(int value) {
+        currentChild.rightOffset = value;
+        return this;
+    }
+
+    @Override
+    public CubChildMethods topOffset(int value) {
+        currentChild.topOffset = value;
+        return this;
+    }
+
+    @Override
+    public CubChildMethods bottomOffset(int value) {
+        currentChild.bottomOffset = value;
         return this;
     }
 

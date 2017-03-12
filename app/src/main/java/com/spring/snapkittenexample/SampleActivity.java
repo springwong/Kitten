@@ -59,8 +59,8 @@ public class SampleActivity extends AppCompatActivity {
         iv2.setScaleType(ImageView.ScaleType.FIT_XY);
         View temp =
         Cub.create().from()
-                .add(iv1).size(40, KittenCompare.equal)
-                .add(iv2).size(20, KittenCompare.equal).alignRight(iv1).alignParentTop()
+                .add(iv1).size(40, KittenCompare.equal).offset(10)
+                .add(iv2).size(20, KittenCompare.equal).alignRight(iv1).alignParentBottom().rightOffset(-10)
                 .build();
         temp.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
 

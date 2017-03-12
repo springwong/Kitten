@@ -31,4 +31,11 @@ public interface CubChildMethods extends CubChild, CubBuild {
     CubChildMethods width(Integer value, KittenCompare condition);
     CubChildMethods height(Integer value, KittenCompare condition);
     CubChildMethods size(Integer value, KittenCompare condition);
+
+    CubChildMethods offset(int value);
+    CubChildMethods leftOffset(int value);
+    CubChildMethods rightOffset(int value);
+    CubChildMethods topOffset(int value);
+    CubChildMethods bottomOffset(int value);
+
 }
