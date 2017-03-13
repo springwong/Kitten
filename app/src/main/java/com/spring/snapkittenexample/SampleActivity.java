@@ -3,7 +3,6 @@ package com.spring.snapkittenexample;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -12,16 +11,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.spring.kittenbinder.annotation.BindContext;
-import com.spring.kittenbinder.annotation.BindTextView;
 import com.spring.kittenbinder.binding.KittenBind;
 import com.spring.snapkitten.core.Cub;
 import com.spring.snapkitten.core.Kitten;
-import com.spring.snapkitten.enums.KittenCompare;
+import com.spring.snapkitten.enums.KittenSign;
 import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
-
-import org.w3c.dom.Text;
 
 public class SampleActivity extends AppCompatActivity {
 
@@ -59,15 +55,17 @@ public class SampleActivity extends AppCompatActivity {
         iv2.setScaleType(ImageView.ScaleType.FIT_XY);
         View temp =
         Cub.create().from()
-                .add(iv1).size(40, KittenCompare.equal).offset(10)
-                .add(iv2).size(20, KittenCompare.equal).alignRight(iv1).alignParentBottom().rightOffset(-10)
+                .add(iv1).size(40, KittenSign.equal).offset(10).centerX(true)
+                .add(iv2).size(20, KittenSign.equal).alignRight(iv1).alignBottom(iv1).bottomOffset(-10).rightOffset(-10)
+                .add(tv1).below(iv1)
+                .add(tv2).below(tv1)
                 .build();
         temp.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
 
         View child = alignParentCard();
         Kitten.create(KittenOrientation.vertical)
                 .from(mainView).isAlignDirectionEnd(true)
-                .add(temp).align(KittenAlignment.start)
+                .add(temp).align(KittenAlignment.parent)
                 .add(weightExample())
                 .add(textViewA)
                 .add(textViewB)
@@ -109,8 +107,8 @@ public class SampleActivity extends AppCompatActivity {
                 .isAlignDirectionEnd(true)
                 .startPadding(15)
                 .endPadding(15)
-                .add(ivProfile).size(40, KittenCompare.equal).priority(KittenPriority.high)
-                .add(textView)//.height(240, KittenCompare.max)
+                .add(ivProfile).size(40, KittenSign.equal).priority(KittenPriority.high)
+                .add(textView)//.height(240, KittenSign.max)
 //                .add(textView1)
                 .build();
     }
@@ -123,7 +121,7 @@ public class SampleActivity extends AppCompatActivity {
         return Kitten.create(KittenOrientation.horizontal)
                 .from()
                 .defaultAlignment(KittenAlignment.center)
-                .add(imageView).size(40, KittenCompare.equal).priority(KittenPriority.high)
+                .add(imageView).size(40, KittenSign.equal).priority(KittenPriority.high)
                 .add(textView).itemOffset(40)
                 .build();
     }

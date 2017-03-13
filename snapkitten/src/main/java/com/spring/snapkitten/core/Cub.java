@@ -4,18 +4,14 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.spring.snapkitten.enums.CubAction;
-import com.spring.snapkitten.enums.KittenCompare;
-import com.spring.snapkitten.enums.KittenOrientation;
+import com.spring.snapkitten.enums.KittenSign;
 import com.spring.snapkitten.interfaces.CubChild;
 import com.spring.snapkitten.interfaces.CubChildMethods;
 import com.spring.snapkitten.interfaces.CubParent;
 import com.spring.snapkitten.interfaces.CubParentMethods;
-import com.spring.snapkitten.interfaces.KittenParent;
-import com.spring.snapkitten.interfaces.KittenParentMethods;
 import com.spring.snapkitten.interfaces.KittenSizeConversion;
 import com.spring.snapkitten.subclass.CubRelativeAction;
 import com.spring.snapkitten.subclass.KittenCondition;
@@ -192,7 +188,7 @@ public final class Cub implements CubParent, CubParentMethods, CubChild, CubChil
     }
 
     @Override
-    public CubChildMethods width(Integer value, KittenCompare condition) {
+    public CubChildMethods width(Integer value, KittenSign condition) {
         currentChild.width = new KittenCondition(value, condition);
         if(sizeConversion != null){
             currentChild.width.value = sizeConversion.sizeConvert(value);
@@ -201,7 +197,7 @@ public final class Cub implements CubParent, CubParentMethods, CubChild, CubChil
     }
 
     @Override
-    public CubChildMethods height(Integer value, KittenCompare condition) {
+    public CubChildMethods height(Integer value, KittenSign condition) {
         currentChild.height = new KittenCondition(value, condition);
         if(sizeConversion != null){
             currentChild.height.value = sizeConversion.sizeConvert(value);
@@ -210,7 +206,7 @@ public final class Cub implements CubParent, CubParentMethods, CubChild, CubChil
     }
 
     @Override
-    public CubChildMethods size(Integer value, KittenCompare condition) {
+    public CubChildMethods size(Integer value, KittenSign condition) {
         currentChild.width = new KittenCondition(value, condition);
         currentChild.height = new KittenCondition(value, condition);
         if(sizeConversion != null){

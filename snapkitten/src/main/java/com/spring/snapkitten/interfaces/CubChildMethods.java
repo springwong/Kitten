@@ -2,7 +2,7 @@ package com.spring.snapkitten.interfaces;
 
 import android.view.View;
 
-import com.spring.snapkitten.enums.KittenCompare;
+import com.spring.snapkitten.enums.KittenSign;
 
 /**
  * Created by spring on 12/3/2017.
@@ -28,9 +28,9 @@ public interface CubChildMethods extends CubChild, CubBuild {
     CubChildMethods centerX(boolean isCenter);
     CubChildMethods centerY(boolean isCenter);
 
-    CubChildMethods width(Integer value, KittenCompare condition);
-    CubChildMethods height(Integer value, KittenCompare condition);
-    CubChildMethods size(Integer value, KittenCompare condition);
+    CubChildMethods width(Integer value, KittenSign condition);
+    CubChildMethods height(Integer value, KittenSign condition);
+    CubChildMethods size(Integer value, KittenSign condition);
 
     CubChildMethods offset(int value);
     CubChildMethods leftOffset(int value);

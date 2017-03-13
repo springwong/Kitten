@@ -1,6 +1,6 @@
 package com.spring.snapkitten.subclass;
 
-import com.spring.snapkitten.enums.KittenCompare;
+import com.spring.snapkitten.enums.KittenSign;
 
 /**
  * Created by spring on 26/2/2017.
@@ -8,9 +8,9 @@ import com.spring.snapkitten.enums.KittenCompare;
 
 public class KittenCondition {
     public Integer value;
-    public KittenCompare condition;
+    public KittenSign condition;
 
-    public KittenCondition(Integer value, KittenCompare condition) {
+    public KittenCondition(Integer value, KittenSign condition) {
         this.value = value;
         this.condition = condition;
     }

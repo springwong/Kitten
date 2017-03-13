@@ -7,9 +7,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.spring.snapkitten.enums.KittenSign;
 import com.spring.snapkitten.interfaces.KittenSizeConversion;
 import com.spring.snapkitten.subclass.KittenCondition;
-import com.spring.snapkitten.enums.KittenCompare;
 import com.spring.snapkitten.enums.KittenPriority;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
@@ -20,8 +20,6 @@ import com.spring.snapkitten.interfaces.KittenBuild;
 import com.spring.snapkitten.interfaces.KittenParent;
 import com.spring.snapkitten.interfaces.KittenParentMethods;
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -231,7 +229,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
-    public KittenChildMethods width(Integer value, KittenCompare condition) {
+    public KittenChildMethods width(Integer value, KittenSign condition) {
         currentChild.width = new KittenCondition(value, condition);
         if(sizeConversion != null){
             currentChild.width.value = sizeConversion.sizeConvert(value);
@@ -240,7 +238,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
-    public KittenChildMethods height(Integer value, KittenCompare condition) {
+    public KittenChildMethods height(Integer value, KittenSign condition) {
         currentChild.height = new KittenCondition(value, condition);
         if(sizeConversion != null){
             currentChild.height.value = sizeConversion.sizeConvert(value);
@@ -249,7 +247,7 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
     }
 
     @Override
-    public KittenChildMethods size(Integer value, KittenCompare condition) {
+    public KittenChildMethods size(Integer value, KittenSign condition) {
         currentChild.width = new KittenCondition(value, condition);
         currentChild.height = new KittenCondition(value, condition);
         if(sizeConversion != null){
