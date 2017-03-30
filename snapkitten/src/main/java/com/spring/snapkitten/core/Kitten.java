@@ -2,6 +2,7 @@ package com.spring.snapkitten.core;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -60,26 +61,51 @@ public final class Kitten implements KittenChildMethods, KittenChild, KittenBuil
 //    }
 
     public static KittenParent create(KittenOrientation orientation){
-        return new Kitten(orientation, SnapKitten.getContext(), SnapKitten.getSizeConversion());
+        return new Kitten(orientation, SnapKitten.getSizeConversion());
     }
-    private Kitten(KittenOrientation orientation, Context context, KittenSizeConversion conversion){
+    private Kitten(KittenOrientation orientation, KittenSizeConversion conversion){
         this.orientation = orientation;
         this.sizeConversion = conversion;
-        container = new LinearLayout(context);
+    }
+    private void initSizeConversion(final Context context){
+        if(this.sizeConversion == null) {
+            this.sizeConversion = new KittenSizeConversion() {
+                @Override
+                public int paddingConvert(int input) {
+                    return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, input, context.getResources().getDisplayMetrics());
+                }
+
+                @Override
+                public int sizeConvert(int input) {
+                    return (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, input, context.getResources().getDisplayMetrics());
+                }
+            };
+        }
+
     }
     public KittenParentMethods from(ViewGroup parent){
         this.parent = parent;
+        container = new LinearLayout(parent.getContext());
+        initSizeConversion(parent.getContext());
         return this;
     }
 
     @Override
     public KittenParentMethods from(LinearLayout parent) {
         container = parent;
+        initSizeConversion(parent.getContext());
+        if(orientation == KittenOrientation.vertical){
+            container.setOrientation(LinearLayout.VERTICAL);
+        }else{
+            container.setOrientation(LinearLayout.HORIZONTAL);
+        }
         return this;
     }
 
     @Override
-    public KittenParentMethods from() {
+    public KittenParentMethods from(Context context) {
+        container = new LinearLayout(context);
+        initSizeConversion(context);
         return this;
     }
 

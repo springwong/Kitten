@@ -37,7 +37,7 @@ public final class Cub implements CubParent, CubParentMethods, CubChild, CubChil
     int defaultBottomOffset = 0;
 
     public static CubParent create(){
-        return new Cub(SnapKitten.getContext(), SnapKitten.getSizeConversion());
+        return new Cub(null, SnapKitten.getSizeConversion());
     }
     private Cub(Context context, KittenSizeConversion conversion){
         this.sizeConversion = conversion;

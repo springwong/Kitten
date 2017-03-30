@@ -1,5 +1,6 @@
 package com.spring.snapkitten.interfaces;
 
+import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
@@ -9,6 +10,6 @@ import android.widget.LinearLayout;
 
 public interface KittenParent extends KittenBuild {
     KittenParentMethods from(ViewGroup parent);
-    KittenParentMethods from();
+    KittenParentMethods from(Context context);
     KittenParentMethods from(LinearLayout parent);
 }

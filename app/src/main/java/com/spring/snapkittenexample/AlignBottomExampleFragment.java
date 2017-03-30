@@ -10,12 +10,13 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.spring.kittenbinder.annotation.BindContext;
-import com.spring.kittenbinder.binding.KittenBind;
+import com.spring.kittendecorator.KittenBind;
 import com.spring.snapkitten.core.Kitten;
 import com.spring.snapkitten.enums.KittenAlignment;
 import com.spring.snapkitten.enums.KittenOrientation;
 import com.spring.snapkitten.enums.KittenPriority;
+
+import kittenbinder.BindContext;
 
 /**
  * A placeholder fragment containing a simple view.
@@ -38,12 +39,12 @@ public class AlignBottomExampleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        KittenBind.bind(this);
+        KittenBind.bind(this, getActivity());
         btn.setText("12 e12e 1");
         sv.setBackgroundColor(getResources().getColor(android.R.color.holo_blue_dark));
         btn.setBackgroundColor(getResources().getColor(android.R.color.holo_green_dark));
         btn.setGravity(Gravity.CENTER);
-        View mainView = Kitten.create(KittenOrientation.vertical).from()
+        View mainView = Kitten.create(KittenOrientation.vertical).from(getContext())
                 .isAlignDirectionEnd(true).defaultAlignment(KittenAlignment.parent)
         .add(sv).fillParent()
                 .add(btn)

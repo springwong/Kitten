@@ -31,5 +31,8 @@ dependencies {
     compile 'com.android.support:appcompat-v7:25.1.0'
     compile 'com.android.support:design:25.1.0'
     testCompile 'junit:junit:4.12'
-    compile 'com.github.springwong:KittenBinder:0.1.0'
+    annotationProcessor 'com.spring.kitten:kitten-processor:1.0.11'
+    compile 'com.spring.kitten:kittendecorator:1.0.15'
+//    compile 'com.spring.kitten:kitten-binder:1.0.6'
+
 }

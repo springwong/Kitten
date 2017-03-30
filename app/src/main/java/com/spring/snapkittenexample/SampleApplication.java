@@ -15,7 +15,7 @@ public class SampleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SnapKitten.initialize(getApplicationContext());
+//        SnapKitten.initialize(getApplicationContext());
         SnapKitten.setup(new KittenSizeConversion() {
             @Override
             public int paddingConvert(int input) {
